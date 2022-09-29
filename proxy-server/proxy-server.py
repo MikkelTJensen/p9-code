@@ -27,6 +27,7 @@ class SocketConnection():
 		msg = f"{data!r}"
 		print(msg)
 		self.conn.sendall(data)
+		return True
 
 
 def on_new_client(conn, addr):
