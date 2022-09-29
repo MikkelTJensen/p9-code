@@ -15,20 +15,19 @@ class SocketConnection():
 	def __init__(self, conn, addr):
 		self.conn = conn
 		self.addr = addr
-		self.conn_type = None
 
 	def run(self):
 		with self.conn:
 			while True:
 				data = self.conn.recv(1024)
-				if data and not self.handleMessage(data):
+				if data and self.handleMessage(data):
 					break
 
 	def handleMessage(self, data):
 		msg = f"{data!r}"
 		print(msg)
 		self.conn.sendall(data)
-		return False
+
 
 
 def on_new_client(conn, addr):
