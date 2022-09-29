@@ -5,9 +5,9 @@
             string client_type = args[0];
             
             if (client_type == "sender") {
-                Console.WriteLine("Sender!");
+                EchoClient.StartClient("SENDER");
             } else if (client_type == "receiver") {
-                Console.WriteLine("Receiver!");
+                EchoClient.StartClient("RECEIVER");
             }
             else {
                 Console.WriteLine("Did not detect sender or receiver. Shutting down.");
