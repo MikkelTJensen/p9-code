@@ -6,7 +6,7 @@ HOST = "127.0.0.1"
 PORT = 65432
 
 
-class Server():
+class MessageBuffer():
 	def __init__():
 		pass
 
@@ -27,7 +27,6 @@ class SocketConnection():
 		msg = f"{data!r}"
 		print(msg)
 		self.conn.sendall(data)
-
 
 
 def on_new_client(conn, addr):
