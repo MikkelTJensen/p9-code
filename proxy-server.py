@@ -1,5 +1,5 @@
-import thread
 import socket
+import threading
 
 
 HOST = "127.0.0.1"
@@ -12,7 +12,8 @@ def on_new_client(conn, addr):
 		while True:
 			data = conn.recv(1024)
 			if data:
-				msg = f"{data!r}"
+				conn.sendall(data)
+				break
 
 
 def main():
@@ -21,7 +22,8 @@ def main():
 		s.listen(10)
 		while True:
 			conn, addr = s.accept()
-			thread.start_new_thread(on_new_client, (conn, addr))
+			new_thread = threading.Thread(target=on_new_client, args=(conn, addr))
+			new_thread.start()
 
 
 if __name__ == "__main__":

@@ -2,9 +2,9 @@
     public class Program {
         public static int Main() {
 
-            // EchoClient.StartClient();
+            EchoClient.StartClient();
 
-            EchoServer.StartServer();
+            // EchoServer.StartServer();
 
             return 0;
         }
