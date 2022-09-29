@@ -1,0 +1,15 @@
+/Users/mikkeljensen/Documents/Repos/p9-code/bin/Debug/net6.0/p9-code
+/Users/mikkeljensen/Documents/Repos/p9-code/bin/Debug/net6.0/p9-code.deps.json
+/Users/mikkeljensen/Documents/Repos/p9-code/bin/Debug/net6.0/p9-code.runtimeconfig.json
+/Users/mikkeljensen/Documents/Repos/p9-code/bin/Debug/net6.0/p9-code.dll
+/Users/mikkeljensen/Documents/Repos/p9-code/bin/Debug/net6.0/p9-code.pdb
+/Users/mikkeljensen/Documents/Repos/p9-code/obj/Debug/net6.0/p9-code.csproj.AssemblyReference.cache
+/Users/mikkeljensen/Documents/Repos/p9-code/obj/Debug/net6.0/p9-code.GeneratedMSBuildEditorConfig.editorconfig
+/Users/mikkeljensen/Documents/Repos/p9-code/obj/Debug/net6.0/p9-code.AssemblyInfoInputs.cache
+/Users/mikkeljensen/Documents/Repos/p9-code/obj/Debug/net6.0/p9-code.AssemblyInfo.cs
+/Users/mikkeljensen/Documents/Repos/p9-code/obj/Debug/net6.0/p9-code.csproj.CoreCompileInputs.cache
+/Users/mikkeljensen/Documents/Repos/p9-code/obj/Debug/net6.0/p9-code.dll
+/Users/mikkeljensen/Documents/Repos/p9-code/obj/Debug/net6.0/refint/p9-code.dll
+/Users/mikkeljensen/Documents/Repos/p9-code/obj/Debug/net6.0/p9-code.pdb
+/Users/mikkeljensen/Documents/Repos/p9-code/obj/Debug/net6.0/p9-code.genruntimeconfig.cache
+/Users/mikkeljensen/Documents/Repos/p9-code/obj/Debug/net6.0/ref/p9-code.dll
