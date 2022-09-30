@@ -12,6 +12,7 @@ class MessageBuffer():
 	def pop_message(self, socket_id):
 		index = -1
 
+		# Find the first message NOT sent by the current socket/client
 		for i, msg in enumerate(self._buffer):
 			if msg[1] is not socket_id:
 				index = i
