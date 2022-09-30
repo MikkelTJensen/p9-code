@@ -1,10 +1,8 @@
 import socket
 import threading
 
-
 from socket_connection import SocketConnection
 from message_buffer import MessageBuffer
-
 
 class ProxyServer():
 	def __init__(self, HOST, PORT):
