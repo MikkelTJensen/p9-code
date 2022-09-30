@@ -25,7 +25,7 @@ class SocketConnection():
 		return False
 
 	def _handle_outgoing(self):
-		msg = self._message_buffer.send_message(self.socket_id)
+		msg = self._message_buffer.pop_message(self.socket_id)
 		if msg:
 			self.conn.sendall(msg)
 		return False

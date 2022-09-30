@@ -9,7 +9,7 @@ class MessageBuffer():
 		self._buffer.append((msg, socket_id))
 		self._log_message(msg, socket_id)
 
-	def send_message(self, socket_id):
+	def pop_message(self, socket_id):
 		index = -1
 
 		for i, msg in enumerate(self._buffer):
