@@ -29,7 +29,7 @@ namespace P9Fuzzing {
                     Console.WriteLine("Socket connected to {0}", sender.RemoteEndPoint.ToString());
                     
                     // Encode message
-                    byte[] msg = Encoding.ASCII.GetBytes(client_type + ": Hello!<EOF>");
+                    byte[] msg = Encoding.ASCII.GetBytes("Hello from " + client_type + "!<EOF>");
                     
                     // Send it
                     int bytesSent = sender.Send(msg);
