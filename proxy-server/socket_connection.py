@@ -10,7 +10,7 @@ class SocketConnection():
 			while True:
 				inc = self._handle_incoming()
 				out = self._handle_outgoing()
-				# for future stuff - if socket should be closed
+				# Used to close the socket
 				if inc or out:
 					break	
 
