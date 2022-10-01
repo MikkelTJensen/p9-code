@@ -27,7 +27,7 @@ class SocketConnection():
 	def _handle_incoming(self) -> bool:
 		"""
 		Listen for messages from the client for 2.0 seconds, then timeout - store received message
-		:return: return True if client has closed connection, otherwise False
+		:return: True if client has closed the connection, otherwise False
 		"""
 		try:
 			self.conn.settimeout(2.0)
