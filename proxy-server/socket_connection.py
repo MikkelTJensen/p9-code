@@ -1,3 +1,5 @@
+import socket
+
 class SocketConnection():
 	def __init__(self, conn, addr, mb, socket_id):
 		self.conn = conn
@@ -24,9 +26,11 @@ class SocketConnection():
 			if data:
 				msg = data.decode()
 				self._message_buffer.store_message(msg, self.socket_id)
-		except:
-			pass
-		return False
+				return False
+		except socket.timeout:
+			return False
+		return True
+		
 
 	def _handle_outgoing(self):
 		# Check if a socket/client has a pending message - if so, its popped and return
