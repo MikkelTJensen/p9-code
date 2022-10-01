@@ -1,5 +1,3 @@
-import socket
-
 class SocketConnection():
 	def __init__(self, conn, addr, mb, socket_id):
 		self.conn = conn
