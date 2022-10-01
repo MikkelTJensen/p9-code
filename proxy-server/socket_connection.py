@@ -1,28 +1,39 @@
-class SocketConnection():
-	def __init__(self, conn, addr, mb, socket_id):
-		self.conn = conn
-		self.addr = addr
-		self._message_buffer = mb
-		self.socket_id = socket_id
+import socket
+from typing import Tuple
 
-	def run(self):
+from message_buffer import MessageBuffer
+
+class SocketConnection():
+	def __init__(self, conn, addr: Tuple[str, int], mb: MessageBuffer, socket_id: int) -> None:
+		"""
+		Alternate between receiving and sending messages for the client connected through the socket
+		"""
+		self.conn = conn
+		self.addr: Tuple[str, int] = addr
+		self._message_buffer: MessageBuffer = mb
+		self.socket_id: int = socket_id
+
+	def run(self) -> None:
+		"""
+		Alternates between listening for messages and sending messages to the client
+		"""
 		with self.conn:
 			while True:
-				inc = self._handle_incoming()
-				out = self._handle_outgoing()
-				# Used to close the socket
+				inc: bool = self._handle_incoming()
+				out: bool = self._handle_outgoing()
 				if inc or out:
-					break	
+					break
 
-	def _handle_incoming(self):
-		# Timeout since recv() just waits for messages
+	def _handle_incoming(self) -> bool:
+		"""
+		Listen for messages from the client for 2.0 seconds, then timeout - store received message
+		:return: return True if client has closed connection, otherwise False
+		"""
 		try:
 			self.conn.settimeout(2.0)
-			# Check for incoming message from the client
-			data = self.conn.recv(1024)
-			# Store if anything is received
+			data: bytes = self.conn.recv(1024)
 			if data:
-				msg = data.decode()
+				msg: str = data.decode()
 				self._message_buffer.store_message(msg, self.socket_id)
 				return False
 		except socket.timeout:
@@ -30,10 +41,12 @@ class SocketConnection():
 		return True
 		
 
-	def _handle_outgoing(self):
-		# Check if a socket/client has a pending message - if so, its popped and return
-		msg = self._message_buffer.pop_message(self.socket_id)
-		# Send it to the socket/client
+	def _handle_outgoing(self) -> bool:
+		"""
+		Check if a message is in the buffer for the client - send if there is
+		:return: False
+		"""
+		msg: bytes = self._message_buffer.pop_message(self.socket_id)
 		if msg:
 			self.conn.sendall(msg)
 		return False
