@@ -6,7 +6,7 @@ class MessageBuffer():
 		Stores messages until a it is sent to a client.
 		Also logs when a message is received.
 		"""
-		self._buffer: list[tuple(str, int)] = []
+		self._buffer: List[Tuple[str, int]] = []
 
 	def _log_message(self, msg: str, socket_id: int) -> None:
 		"""
