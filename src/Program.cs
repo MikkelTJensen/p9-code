@@ -8,8 +8,7 @@
                 EchoClient.StartClient("SENDER");
             } else if (client_type == "receiver") {
                 EchoClient.StartClient("RECEIVER");
-            }
-            else {
+            } else {
                 Console.WriteLine("Did not detect sender or receiver. Shutting down.");
             }
             return 0;
