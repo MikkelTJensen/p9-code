@@ -1,6 +1,7 @@
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
-class MessageBuffer():
+
+class MessageBuffer:
 	def __init__(self) -> None:
 		"""
 		Stores messages until a it is sent to a client.
@@ -21,7 +22,7 @@ class MessageBuffer():
 		self._buffer.append((msg, socket_id))
 		self._log_message(msg, socket_id)
 
-	def pop_message(self, socket_id: int) -> bytes:
+	def pop_message(self, socket_id: int) -> Union[bytes, None]:
 		"""
 		Enumerate the buffer and return the first message found NOT sent from the current client
 		:return: string message encoded to bytes
