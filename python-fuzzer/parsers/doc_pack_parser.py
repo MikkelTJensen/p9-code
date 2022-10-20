@@ -1,6 +1,6 @@
-from input_parser import InputParser
-
 from typing import List, Any
+
+from input_parser import InputParser
 
 
 class DocumentPackageParser(InputParser):

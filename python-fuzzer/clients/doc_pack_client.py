@@ -1,7 +1,7 @@
-from client import Client
-
 import socket
 from typing import Any
+
+from client import Client
 
 
 class DocumentPackageClient(Client):
