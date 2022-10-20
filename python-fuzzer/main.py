@@ -12,7 +12,7 @@ PORT: int = 65432
 
 
 def main() -> None:
-	logger_path = "/path/"
+	logger_path: str = "/path/"
 	input_path: str = "/path/"
 	parser: Parser = DocumentPackageParser(input_path)
 
