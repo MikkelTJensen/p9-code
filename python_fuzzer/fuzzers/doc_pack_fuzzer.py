@@ -1,7 +1,10 @@
 import random
 from typing import Any, List, Tuple
 
-from python_fuzzer import Fuzzer, Mutator, Runner, Logger
+from .fuzzer import Fuzzer
+from python_fuzzer.mutators.mutator import Mutator
+from python_fuzzer.runners.runner import Runner
+from python_fuzzer.loggers.logger import Logger
 
 
 class DocumentPackageFuzzer(Fuzzer):

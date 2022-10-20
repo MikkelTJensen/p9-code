@@ -1,4 +1,4 @@
-from client import Client
-from doc_pack_client import DocumentPackageClient
+from .client import Client
+from .doc_pack_client import DocumentPackageClient
 
-__all__ = [Client, DocumentPackageClient]
+__all__ = ["Client", "DocumentPackageClient"]

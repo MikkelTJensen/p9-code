@@ -1,6 +1,7 @@
 from typing import Any, Tuple, Callable
 
-from python_fuzzer import Client, Runner
+from .runner import Runner
+from python_fuzzer.clients.client import Client
 
 
 class DocumentPackageRunner(Runner):

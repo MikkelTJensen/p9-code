@@ -1,6 +1,6 @@
 from typing import Any
 
-from python_fuzzer import Logger
+from .logger import Logger
 
 
 class SimpleLogger(Logger):
