@@ -1,6 +1,6 @@
-from logger import Logger
-
 from typing import Any
+
+from logger import Logger
 
 
 class SimpleLogger(Logger):
