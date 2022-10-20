@@ -1,10 +1,12 @@
-from runner import Runner
-
 from typing import Any, Tuple, Callable
+
+from runner import Runner
+from python_fuzzer import Client
 
 
 class DocumentPackageRunner(Runner):
-    def __init__(self, client) -> None:
+    def __init__(self, client: Client) -> None:
+        self.client = client
         self.function: Callable[[Any], str] = client.send_message
         self.PASS: str = 'PASS'
         self.FAIL: str = 'FAIL'
