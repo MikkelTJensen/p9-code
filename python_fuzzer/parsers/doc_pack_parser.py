@@ -1,9 +1,9 @@
 from typing import List, Any
 
-from input_parser import InputParser
+from python_fuzzer import Parser
 
 
-class DocumentPackageParser(InputParser):
+class DocumentPackageParser(Parser):
     def __init__(self, path: str):
         self.path: str = path
 

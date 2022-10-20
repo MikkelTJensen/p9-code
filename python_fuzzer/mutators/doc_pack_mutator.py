@@ -1,7 +1,7 @@
 import random
 from typing import Any, List, Callable
 
-from mutator import Mutator
+from python_fuzzer import Mutator
 
 
 class DocumentPackageMutator(Mutator):

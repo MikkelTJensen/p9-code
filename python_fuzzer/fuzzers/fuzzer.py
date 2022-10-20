@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
+from python_fuzzer import Runner, Logger
+
 
 class Fuzzer(ABC):
     @abstractmethod
@@ -8,7 +10,7 @@ class Fuzzer(ABC):
         pass
 
     @abstractmethod
-    def fuzz(self, inp) -> Any:
+    def fuzz(self, inp: Any) -> Any:
         pass
 
     @abstractmethod
@@ -16,5 +18,5 @@ class Fuzzer(ABC):
         pass
 
     @abstractmethod
-    def run(self, runner, logger) -> None:
+    def run(self, runner: Runner, logger: Logger) -> None:
         pass

@@ -1,17 +1,17 @@
-from fuzzer import Fuzzer
-
 import random
 from typing import Any, List, Tuple
 
+from python_fuzzer import Fuzzer, Mutator, Runner, Logger
+
 
 class DocumentPackageFuzzer(Fuzzer):
-    def __init__(self, seed: List[Any], mutator):
+    def __init__(self, seed: List[Any], mutator: Mutator):
         self.seed: List[Any] = seed
         self.seed_length: int = len(self.seed)
         self.seed_index: int = 0
         self.population: List[Any] = []
 
-        self.mutator = mutator
+        self.mutator: Mutator = mutator
 
     def reset(self) -> None:
         self.population = []
@@ -19,7 +19,7 @@ class DocumentPackageFuzzer(Fuzzer):
 
     def fuzz(self, inp: Any) -> Any:
         # TODO: Multiple mutations
-        return self.mutator(inp)
+        return self.mutator.mutate(inp)
 
     def choose_candidate(self) -> Any:
         # First use initial seed input
@@ -33,14 +33,14 @@ class DocumentPackageFuzzer(Fuzzer):
 
         return choice
 
-    def run(self, runner, logger) -> Tuple[Any, str]:
-        candidate = self.choose_candidate()
+    def run(self, runner: Runner, logger: Logger) -> Tuple[Any, str]:
+        candidate: Any = self.choose_candidate()
         candidate = self.fuzz(candidate)
         result, outcome = runner.run(candidate)
         if outcome == 'FAIL':
             logger.log_crash(result)
         return result, outcome
 
-    def multiple_runs(self, runner, logger, run_count: int) -> List[Tuple[Any, str]]:
+    def multiple_runs(self, runner: Runner, logger: Logger, run_count: int) -> List[Tuple[Any, str]]:
         return [self.run(runner, logger) for _ in range(run_count)]
 

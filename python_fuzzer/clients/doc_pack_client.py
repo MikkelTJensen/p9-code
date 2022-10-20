@@ -1,7 +1,7 @@
 import socket
 from typing import Any
 
-from client import Client
+from python_fuzzer import Client
 
 
 class DocumentPackageClient(Client):
