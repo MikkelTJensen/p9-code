@@ -1,32 +1,20 @@
-from mutators.mutator import Mutator
-from runners.runner import Runner
-from loggers.logger import Logger
-
 from abc import ABC, abstractmethod
-from typing import List, Any
+from typing import Any
 
 
 class Fuzzer(ABC):
-    @property
-    def seed(self) -> List[Any]:
-        raise NotImplementedError
-
-    @property
-    def runner(self) -> Runner:
-        raise NotImplementedError
-
-    @property
-    def mutator(self) -> Mutator:
-        raise NotImplementedError
-
-    @property
-    def logger(self) -> Logger:
-        raise NotImplementedError
-
     @abstractmethod
-    def fuzz(self) -> Any:
+    def reset(self) -> None:
         pass
 
     @abstractmethod
-    def run(self):
+    def fuzz(self, inp) -> Any:
+        pass
+
+    @abstractmethod
+    def choose_candidate(self) -> Any:
+        pass
+
+    @abstractmethod
+    def run(self, runner, logger) -> None:
         pass

@@ -2,8 +2,8 @@ from parsers import Parser, DocumentPackageParser
 from clients import Client, DocumentPackageClient
 from mutators import Mutator, DocumentPackageMutator
 from runners import Runner, DocumentPackageRunner
-from loggers import Logger
-from fuzzers import Fuzzer
+from loggers import Logger, SimpleLogger
+from fuzzers import Fuzzer, DocumentPackageFuzzer
 
 from typing import List, Any
 
@@ -12,18 +12,19 @@ PORT: int = 65432
 
 
 def main() -> None:
-	path: str = "/path/"
-	parser: Parser = DocumentPackageParser(path)
+	logger_path = "/path/"
+	input_path: str = "/path/"
+	parser: Parser = DocumentPackageParser(input_path)
 
 	client: Client = DocumentPackageClient(HOST, PORT)
 
 	seed: List[Any] = parser.load_seed()
 	mutator: Mutator = DocumentPackageMutator()
-	runner: Runner = Runner(client)
-	logger: Logger = Logger()
+	runner: Runner = DocumentPackageRunner(client)
+	logger: Logger = SimpleLogger(logger_path)
 
-	fuzzer: Fuzzer = Fuzzer(seed, mutator, runner, logger)
-	fuzzer.run()
+	fuzzer: Fuzzer = DocumentPackageFuzzer(seed, mutator)
+	fuzzer.run(runner, logger)
 
 
 if __name__ == '__main__':

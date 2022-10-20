@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Tuple
 
 
 class Runner(ABC):
     @abstractmethod
-    def run_function(self, func_inp: Any) -> None:
+    def run(self, func_inp: Any) -> Tuple[Any, str]:
         pass
