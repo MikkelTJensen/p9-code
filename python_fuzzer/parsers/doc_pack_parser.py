@@ -12,6 +12,6 @@ class DocumentPackageParser(InputParser):
         Load packages intercepted from RASP protocol into a data structure that can be handled.
         :return: The seed. In this case the packages sent between RASP sender and receiver.
         """
-        seed: List[Any] = []
+        seed: List[Any] = ["place_holder"]
         # TODO: Implement loading a package
         return seed

@@ -20,6 +20,7 @@ def main() -> None:
 
 	fuzz: Fuzzer = DocumentPackageFuzzer(seed, mut)
 	result = fuzz.run(run, log)
+	print(result)
 
 
 if __name__ == '__main__':
