@@ -1,17 +1,18 @@
 import socket
-import  threading
+import threading
 from typing import Tuple
 
 from socket_connection import SocketConnection
 from message_buffer import MessageBuffer
 
-class ProxyServer():
-	def __init__(self, HOST: str, PORT: int) -> None:
+
+class ProxyServer:
+	def __init__(self, host: str, port: int) -> None:
 		"""
 		Listens for connections at given port and creates new class to handle connections
 		"""
-		self.HOST: str = HOST
-		self.PORT: int = PORT
+		self.HOST: str = host
+		self.PORT: int = port
 		self.MAX_CONNECTIONS: int = 2
 		self.message_buffer: MessageBuffer = MessageBuffer()
 		self.current_id: int = 0

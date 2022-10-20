@@ -3,7 +3,8 @@ from typing import Tuple
 
 from message_buffer import MessageBuffer
 
-class SocketConnection():
+
+class SocketConnection:
 	def __init__(self, conn, addr: Tuple[str, int], mb: MessageBuffer, socket_id: int) -> None:
 		"""
 		Alternate between receiving and sending messages for the client connected through the socket
@@ -39,7 +40,6 @@ class SocketConnection():
 		except socket.timeout:
 			return False
 		return True
-		
 
 	def _handle_outgoing(self) -> bool:
 		"""
