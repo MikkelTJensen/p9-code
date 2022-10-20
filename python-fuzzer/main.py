@@ -1,4 +1,4 @@
-from parsers import Parser, PackageParser
+from parsers import Parser, DocumentPackageParser
 from runners import Runner
 from mutators import Mutator
 from loggers import Logger
@@ -12,7 +12,7 @@ PORT: int = 65432
 
 def main() -> None:
 	path: str = "/path/"
-	parser: Parser = PackageParser(path)
+	parser: Parser = DocumentPackageParser(path)
 
 	seed: List[Any] = parser.load_seed()
 	mutator: Mutator = Mutator()

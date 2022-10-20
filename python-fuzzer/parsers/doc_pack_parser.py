@@ -3,7 +3,7 @@ from input_parser import InputParser
 from typing import List, Any
 
 
-class PackageParser(InputParser):
+class DocumentPackageParser(InputParser):
     def __init__(self, path: str):
         self.path = path
 
