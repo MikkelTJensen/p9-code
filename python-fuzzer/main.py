@@ -1,6 +1,7 @@
 from parsers import Parser, DocumentPackageParser
-from runners import Runner
-from mutators import Mutator
+from clients import Client, DocumentPackageClient
+from mutators import Mutator, DocumentPackageMutator
+from runners import Runner, DocumentPackageRunner
 from loggers import Logger
 from fuzzers import Fuzzer
 
@@ -14,9 +15,11 @@ def main() -> None:
 	path: str = "/path/"
 	parser: Parser = DocumentPackageParser(path)
 
+	client: Client = DocumentPackageClient(HOST, PORT)
+
 	seed: List[Any] = parser.load_seed()
-	mutator: Mutator = Mutator()
-	runner: Runner = Runner(HOST, PORT)
+	mutator: Mutator = DocumentPackageMutator()
+	runner: Runner = Runner(client)
 	logger: Logger = Logger()
 
 	fuzzer: Fuzzer = Fuzzer(seed, mutator, runner, logger)

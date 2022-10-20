@@ -4,8 +4,8 @@ import random
 from typing import Any
 
 
-class DocPackMutator(Mutator):
-    def __init__(self):
+class DocumentPackageMutator(Mutator):
+    def __init__(self) -> None:
         # TODO: List mutator functions here
         self.mutators = [self.change_nothing_mutator]
 

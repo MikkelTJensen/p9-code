@@ -1,11 +1,8 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class Client(ABC):
     @abstractmethod
-    def connect(self) -> None:
-        pass
-
-    @abstractmethod
-    def send_message(self) -> None:
+    def send_message(self, msg: Any) -> None:
         pass
