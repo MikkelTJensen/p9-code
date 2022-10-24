@@ -1,6 +1,7 @@
 from python_fuzzer import *
 
 from os import getcwd
+from os.path import  join
 from typing import List, Any
 
 HOST: str = "127.0.0.1"
@@ -9,8 +10,8 @@ PORT: int = 65432
 
 def main() -> None:
 	cwd_path: str = getcwd()
-	logger_path: str = cwd_path + "\log_files"
-	input_path: str = cwd_path + "\packages"
+	logger_path: str = join(cwd_path, "log_files")
+	input_path: str = join(cwd_path, "packages")
 	parser: Parser = DocumentPackageParser(input_path)
 	seed: List[Any] = parser.load_seed()
 

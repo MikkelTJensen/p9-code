@@ -22,11 +22,11 @@ class DocumentPackageParser(InputParser):
 
         # Do something with each package
         for package in packages:
-            path = rf"{self.path}\{package}"
+            path = join(self.path, package)
             with open(path, "rb") as fp:
                 scanner = FileScanner(fp)
                 for block in scanner:
-                    pass
+                    print(type(block))
 
         seed: List[Any] = ["place_holder"]
         # TODO: Implement loading a package
