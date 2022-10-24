@@ -14,10 +14,10 @@ class DocumentPacketClient(Client):
 
     def send_message(self, doc_pack: Any) -> str:
         try:
+            # Scapy reads the packet and finds IP and port for receiver
             send(doc_pack)
             outcome = self.PASS
-        except Exception as e:
-            print(e)
+        except Exception:
             outcome: str = self.FAIL
 
         return outcome
