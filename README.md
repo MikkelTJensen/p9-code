@@ -8,3 +8,10 @@
 To run C# code: `dotnet run`
 
 To run Python code: `python3 file.py`
+
+
+#To run python module code:
+export PYTHONPATH=/home/local/Documents/gitshit/p9-code/python_fuzzer
+
+from p9-code:
+python3 -m python_fuzzer.main
