@@ -13,7 +13,7 @@ def main() -> None:
 	if not cwd_path.endswith("python_fuzzer"):
 		cwd_path = join(cwd_path, "python_fuzzer")
 
-	input_path: str = join(cwd_path, "packages")
+	input_path: str = join(cwd_path, "packets")
 	parser: Parser = DocumentPackageParser(input_path)
 	seed: List[Any] = parser.load_seed()
 

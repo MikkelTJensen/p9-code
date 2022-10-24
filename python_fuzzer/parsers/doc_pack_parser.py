@@ -13,7 +13,7 @@ class DocumentPackageParser(InputParser):
 
     def load_seed(self) -> List[Any]:
         """
-        Load packages intercepted from RASP protocol into a data structure that can be handled.
+        Load packets intercepted from RASP protocol into a data structure that can be handled.
         :return: The seed. In this case the packages sent between RASP sender and receiver.
         """
         seed: List[Any] = []
