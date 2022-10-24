@@ -26,7 +26,7 @@ def main() -> None:
 	log: Logger = SimpleLogger(logger_path)
 
 	fuzz: Fuzzer = DocumentPacketFuzzer(seed, mut)
-	result = fuzz.multiple_runs(run, log, 2)
+	result = fuzz.multiple_runs(run, log, len(seed))
 	print(result)
 
 
