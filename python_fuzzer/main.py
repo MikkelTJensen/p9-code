@@ -1,7 +1,7 @@
 from python_fuzzer import *
 
 from os import getcwd
-from os.path import  join
+from os.path import join
 from typing import List, Any
 
 HOST: str = "127.0.0.1"

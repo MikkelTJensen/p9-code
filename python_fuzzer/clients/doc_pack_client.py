@@ -1,4 +1,4 @@
-import socket
+from scapy.all import send
 from typing import Any
 
 from .client import Client
@@ -12,15 +12,12 @@ class DocumentPacketClient(Client):
         self.FAIL: str = 'MESSAGE FAIL'
         self.UNRESOLVED: str = 'MESSAGE UNRESOLVED'
 
-    # TODO: Consider more elaborate "output"?
     def send_message(self, doc_pack: Any) -> str:
         try:
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.connect((self.HOST, self.PORT))
-                # TODO: make sure document package is converted to bytes type and send it below
-                s.sendall(b"Hello, world<EOF>")
-            outcome: str = self.PASS
-        except Exception:
+            send(doc_pack)
+            outcome = self.PASS
+        except Exception as e:
+            print(e)
             outcome: str = self.FAIL
 
         return outcome
