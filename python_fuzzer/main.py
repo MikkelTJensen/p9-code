@@ -10,8 +10,9 @@ PORT: int = 65432
 
 def main() -> None:
 	cwd_path: str = getcwd()
+	if not cwd_path.endswith("python_fuzzer"):
+		cwd_path = join(cwd_path, "python_fuzzer")
 
-	cwd_path = join(cwd_path, "python_fuzzer") if not cwd_path.endswith("python_fuzzer") else cwd_path
 	input_path: str = join(cwd_path, "packages")
 	parser: Parser = DocumentPackageParser(input_path)
 	seed: List[Any] = parser.load_seed()
