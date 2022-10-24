@@ -1,4 +1,5 @@
-from pcapng import FileScanner
+from scapy.all import rdpcap
+
 from os import listdir
 from os.path import isfile, join
 from typing import List, Any
@@ -15,20 +16,17 @@ class DocumentPackageParser(InputParser):
         Load packages intercepted from RASP protocol into a data structure that can be handled.
         :return: The seed. In this case the packages sent between RASP sender and receiver.
         """
+        seed: List[Any] = []
+
         # Find all files in folder
-        packages = [file for file in listdir(self.path) if isfile(join(self.path, file))]
+        files = [file for file in listdir(self.path) if isfile(join(self.path, file))]
         # Only keep files ending with .pcap or .pcapng
-        packages = [package for package in packages if package.endswith(".pcap") or package.endswith(".pcapng")]
+        files = [file for file in files if file.endswith(".pcap") or file.endswith(".pcapng")]
 
         # Do something with each package
-        for package in packages:
-            path = join(self.path, package)
-            print(path)
-            with open(path, "rb") as fp:
-                scanner = FileScanner(fp)
-                for block in scanner:
-                    pass
+        for file in files:
+            path = join(self.path, file)
+            packet = rdpcap(path)
+            seed.append(packet)
 
-        seed: List[Any] = ["place_holder"]
-        # TODO: Implement loading a package
         return seed
