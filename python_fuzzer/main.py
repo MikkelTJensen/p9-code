@@ -14,18 +14,18 @@ def main() -> None:
 		cwd_path = join(cwd_path, "python_fuzzer")
 
 	input_path: str = join(cwd_path, "packets")
-	parser: Parser = DocumentPackageParser(input_path)
+	parser: Parser = DocumentPacketParser(input_path)
 	seed: List[Any] = parser.load_seed()
 
-	cl: Client = DocumentPackageClient(HOST, PORT)
+	cl: Client = DocumentPacketClient(HOST, PORT)
 
-	mut: Mutator = DocumentPackageMutator()
-	run: Runner = DocumentPackageRunner(cl)
+	mut: Mutator = DocumentPacketMutator()
+	run: Runner = DocumentPacketRunner(cl)
 
 	logger_path: str = join(cwd_path, "log_files")
 	log: Logger = SimpleLogger(logger_path)
 
-	fuzz: Fuzzer = DocumentPackageFuzzer(seed, mut)
+	fuzz: Fuzzer = DocumentPacketFuzzer(seed, mut)
 	result = fuzz.run(run, log)
 	print(result)
 

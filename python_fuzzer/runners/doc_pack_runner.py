@@ -4,7 +4,7 @@ from .runner import Runner
 from python_fuzzer.clients.client import Client
 
 
-class DocumentPackageRunner(Runner):
+class DocumentPacketRunner(Runner):
     def __init__(self, client: Client) -> None:
         self.client = client
         self.function: Callable[[Any], str] = client.send_message

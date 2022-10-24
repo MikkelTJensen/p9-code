@@ -4,7 +4,7 @@ from typing import Any
 from .client import Client
 
 
-class DocumentPackageClient(Client):
+class DocumentPacketClient(Client):
     def __init__(self, host: str, port: int) -> None:
         self.HOST: str = host
         self.PORT: int = port

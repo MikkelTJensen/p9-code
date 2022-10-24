@@ -7,7 +7,7 @@ from typing import List, Any
 from .input_parser import InputParser
 
 
-class DocumentPackageParser(InputParser):
+class DocumentPacketParser(InputParser):
     def __init__(self, path: str):
         self.path: str = path
 

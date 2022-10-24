@@ -5,9 +5,9 @@ from parsers import *
 from runners import *
 from fuzzers import *
 
-__all__ = ["Client", "DocumentPackageClient",
+__all__ = ["Client", "DocumentPacketClient",
            "Logger", "SimpleLogger",
-           "Mutator", "DocumentPackageMutator",
-           "Parser", "DocumentPackageParser",
-           "Runner", "DocumentPackageRunner",
-           "Fuzzer", "DocumentPackageFuzzer"]
+           "Mutator", "DocumentPacketMutator",
+           "Parser", "DocumentPacketParser",
+           "Runner", "DocumentPacketRunner",
+           "Fuzzer", "DocumentPacketFuzzer"]
