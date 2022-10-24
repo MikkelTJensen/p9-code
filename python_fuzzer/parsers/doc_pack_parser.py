@@ -1,3 +1,6 @@
+from pcapng import FileScanner
+from os import listdir
+from os.path import isfile, join
 from typing import List, Any
 
 from .input_parser import InputParser
@@ -12,6 +15,19 @@ class DocumentPackageParser(InputParser):
         Load packages intercepted from RASP protocol into a data structure that can be handled.
         :return: The seed. In this case the packages sent between RASP sender and receiver.
         """
+        # Find all files in folder
+        packages = [file for file in listdir(self.path) if isfile(join(self.path, file))]
+        # Only keep files ending with .pcap or .pcapng
+        packages = [package for package in packages if package.endswith(".pcap") or package.endswith(".pcapng")]
+
+        # Do something with each package
+        for package in packages:
+            path = rf"{self.path}\{package}"
+            with open(path, "rb") as fp:
+                scanner = FileScanner(fp)
+                for block in scanner:
+                    pass
+
         seed: List[Any] = ["place_holder"]
         # TODO: Implement loading a package
         return seed
