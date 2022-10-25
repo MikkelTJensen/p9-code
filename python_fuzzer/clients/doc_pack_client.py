@@ -1,4 +1,5 @@
-from scapy.all import sr
+from scapy.all import sr1
+from scapy.layers.inet import IP, TCP
 from typing import Any
 from platform import system
 
@@ -10,6 +11,7 @@ class DocumentPacketClient(Client):
         self.platform = system()
         self.HOST: str = host
         self.PORT: int = port
+        self.PORTS = [num for num in range(self.PORT - 100, self.PORT + 100)]
         self.PASS: str = 'MESSAGE PASS'
         self.FAIL: str = 'MESSAGE FAIL'
         self.UNRESOLVED: str = 'MESSAGE UNRESOLVED'
@@ -19,12 +21,13 @@ class DocumentPacketClient(Client):
             result = None
 
             if self.platform == "Linux":
-                result = sr(doc_pack, iface="eth0")
+                result = sr1(IP(dst=self.HOST)/TCP(dport=self.PORT), iface="eth0")
             elif self.platform == "Windows":
-                result = sr(doc_pack, iface="eth0")
+                result = sr1(IP(dst=self.HOST)/TCP(dport=self.PORT), iface="eth0")
             elif self.platform == "Darwin":
-                result = sr(doc_pack, iface="eth0")
+                result = sr1(IP(dst=self.HOST)/TCP(dport=self.PORT), iface="eth0")
 
+            print(result)
             outcome = self.PASS
 
         except Exception:
