@@ -7,7 +7,7 @@ from python_fuzzer.runners.runner import Runner
 from python_fuzzer.loggers.logger import Logger
 
 
-class DocumentPackageFuzzer(Fuzzer):
+class DocumentPacketFuzzer(Fuzzer):
     def __init__(self, seed: List[Any], mutator: Mutator):
         self.seed: List[Any] = seed
         self.seed_length: int = len(self.seed)

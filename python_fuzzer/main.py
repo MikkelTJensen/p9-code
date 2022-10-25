@@ -1,5 +1,7 @@
 from python_fuzzer import *
 
+from os import getcwd
+from os.path import join
 from typing import List, Any
 
 HOST: str = "127.0.0.1"
@@ -7,19 +9,24 @@ PORT: int = 65432
 
 
 def main() -> None:
-	logger_path: str = "/path/"
-	input_path: str = "/path/"
-	parser: Parser = DocumentPackageParser(input_path)
+	cwd_path: str = getcwd()
+	if not cwd_path.endswith("python_fuzzer"):
+		cwd_path = join(cwd_path, "python_fuzzer")
 
-	cl: Client = DocumentPackageClient(HOST, PORT)
-
+	input_path: str = join(cwd_path, "packets")
+	parser: Parser = DocumentPacketParser(input_path)
 	seed: List[Any] = parser.load_seed()
-	mut: Mutator = DocumentPackageMutator()
-	run: Runner = DocumentPackageRunner(cl)
+
+	cl: Client = DocumentPacketClient(HOST, PORT)
+
+	mut: Mutator = DocumentPacketMutator()
+	run: Runner = DocumentPacketRunner(cl)
+
+	logger_path: str = join(cwd_path, "log_files")
 	log: Logger = SimpleLogger(logger_path)
 
-	fuzz: Fuzzer = DocumentPackageFuzzer(seed, mut)
-	result = fuzz.run(run, log)
+	fuzz: Fuzzer = DocumentPacketFuzzer(seed, mut)
+	result = fuzz.multiple_runs(run, log, len(seed))
 	print(result)
 
 
