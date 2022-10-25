@@ -32,6 +32,8 @@ namespace P9Fuzzing {
                 string data = null;
                 byte[] bytes = null;
 
+                Console.WriteLine("Got connection - Si");
+
                 // Read bytes untill <EOF> is recieved
                 while (true) {
                     bytes = new byte[1024];

@@ -1,5 +1,4 @@
-from scapy.all import sr1
-from scapy.layers.inet import IP, TCP
+import socket
 from typing import Any
 from platform import system
 
@@ -18,16 +17,12 @@ class DocumentPacketClient(Client):
 
     def send_message(self, doc_pack: Any) -> str:
         try:
-            result = None
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.connect((self.HOST, self.PORT))
+                s.sendall(b"Hello World<EOF>")
+                data = s.recv(1024)
+                print(data.decode())
 
-            if self.platform == "Linux":
-                result = sr1(IP(dst=self.HOST)/TCP(dport=self.PORT), iface="eth0")
-            elif self.platform == "Windows":
-                result = sr1(IP(dst=self.HOST)/TCP(dport=self.PORT), iface="eth0")
-            elif self.platform == "Darwin":
-                result = sr1(IP(dst=self.HOST)/TCP(dport=self.PORT), iface="eth0")
-
-            print(result)
             outcome = self.PASS
 
         except Exception:
