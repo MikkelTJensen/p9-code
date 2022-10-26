@@ -17,7 +17,7 @@ def run_fuzzer(cwd_path: str, log: Logger, sm: StateMachine) -> None:
 	seed: List[Any] = parser.load_seed()
 
 	mut: Mutator = DocumentPacketMutator()
-	run: Runner = RaspRunner()
+	run: Runner = RaspRunner(log)
 
 	fuzz: Fuzzer = RaspFuzzer(seed, mut)
 	result = fuzz.multiple_runs(run, log, sm, len(seed))
