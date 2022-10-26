@@ -3,6 +3,7 @@ from typing import Any, List, Tuple
 
 from .fuzzer import Fuzzer
 from python_fuzzer.mutators.mutator import Mutator
+from python_fuzzer.state_machines.state_machine import StateMachine
 from python_fuzzer.runners.runner import Runner
 from python_fuzzer.loggers.logger import Logger
 
@@ -21,9 +22,9 @@ class RaspFuzzer(Fuzzer):
     def choose_candidate(self) -> Any:
         pass
 
-    def run(self, runner: Runner, logger: Logger) -> Tuple[Any, str]:
+    def run(self, runner: Runner, logger: Logger, sm: StateMachine) -> Tuple[Any, str]:
         pass
 
-    def multiple_runs(self, runner: Runner, logger: Logger, run_count: int) -> List[Tuple[Any, str]]:
+    def multiple_runs(self, runner: Runner, logger: Logger, sm: StateMachine, run_count: int) -> List[Tuple[Any, str]]:
         pass
 

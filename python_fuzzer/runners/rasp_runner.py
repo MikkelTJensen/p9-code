@@ -1,11 +1,12 @@
 from typing import Any, Tuple, Callable
 
-from .runner import Runner
+from .base_runner import BaseRunner
 
 
-class RaspRunner(Runner):
-    def __init__(self, function) -> None:
-        super().__init__(function)
+class RaspRunner(BaseRunner):
+    def __init__(self) -> None:
+        # TODO: define scapy send function and pass to super as "function"
+        super().__init__()
 
     def run(self, func_inp: Any) -> Tuple[Any, str]:
         pass
