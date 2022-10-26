@@ -7,9 +7,9 @@ class StateMachine(ABC):
         pass
 
     @abstractmethod
-    def set_state(self) -> str:
+    def set_state(self) -> None:
         pass
 
     @abstractmethod
-    def wait_for_change(self) -> str:
+    def check_for_change(self) -> str:
         pass

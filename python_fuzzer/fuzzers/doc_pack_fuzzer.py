@@ -2,19 +2,19 @@ import random
 from typing import Any, List, Tuple
 
 from .fuzzer import Fuzzer
-from python_fuzzer.mutators.mutator import Mutator
-from python_fuzzer.runners.runner import Runner
-from python_fuzzer.loggers.logger import Logger
+from python_fuzzer.mutators.doc_pack_mutator import DocumentPacketMutator
+from python_fuzzer.runners.doc_pack_runner import DocumentPacketRunner
+from python_fuzzer.loggers.simple_logger import SimpleLogger
 
 
 class DocumentPacketFuzzer(Fuzzer):
-    def __init__(self, seed: List[Any], mutator: Mutator):
+    def __init__(self, seed: List[Any], mutator: DocumentPacketMutator):
         self.seed: List[Any] = seed
         self.seed_length: int = len(self.seed)
         self.seed_index: int = 0
         self.population: List[Any] = []
 
-        self.mutator: Mutator = mutator
+        self.mutator: DocumentPacketMutator = mutator
 
     def reset(self) -> None:
         self.population = []
@@ -36,7 +36,7 @@ class DocumentPacketFuzzer(Fuzzer):
 
         return choice
 
-    def run(self, runner: Runner, logger: Logger) -> Tuple[Any, str]:
+    def run(self, runner: DocumentPacketRunner, logger: SimpleLogger) -> Tuple[Any, str]:
         candidate: Any = self.choose_candidate()
         candidate = self.fuzz(candidate)
         result, outcome = runner.run(candidate)
@@ -44,6 +44,6 @@ class DocumentPacketFuzzer(Fuzzer):
             logger.log_crash(result)
         return result, outcome
 
-    def multiple_runs(self, runner: Runner, logger: Logger, run_count: int) -> List[Tuple[Any, str]]:
+    def multiple_runs(self, runner: DocumentPacketRunner, logger: SimpleLogger, run_count: int) -> List[Tuple[Any, str]]:
         return [self.run(runner, logger) for _ in range(run_count)]
 

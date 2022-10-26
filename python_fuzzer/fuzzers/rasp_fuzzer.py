@@ -1,29 +1,31 @@
 from typing import Any, List, Tuple
 
-from .fuzzer import Fuzzer
-from python_fuzzer.mutators.mutator import Mutator
-from python_fuzzer.state_machines.state_machine import StateMachine
-from python_fuzzer.runners.runner import Runner
-from python_fuzzer.loggers.logger import Logger
+from python_fuzzer.fuzzers.doc_pack_fuzzer import DocumentPacketFuzzer
+from python_fuzzer.mutators.doc_pack_mutator import DocumentPacketMutator
+from python_fuzzer.state_machines.rasp_state_machine import RaspStateMachine
+from python_fuzzer.runners.rasp_runner import RaspRunner
 
 
-class RaspFuzzer(Fuzzer):
-    def __init__(self, seed: List[Any], mutator: Mutator):
-        self.seed = seed
-        self.mutator = mutator
+class RaspFuzzer(DocumentPacketFuzzer):
+    def __init__(self, seed: List[Any], mutator: DocumentPacketMutator):
+        super().__init__(seed, mutator)
 
-    def reset(self) -> None:
-        pass
+    def choose_candidate(self, state: str) -> Any:
+        # TODO: Choose seed based on the state of the RASP Protocol
+        return self.seed[0]
 
-    def fuzz(self, inp: Any) -> Any:
-        pass
+    # TODO: Update below function when we have StateMachine and Runner working
+    def run(self, runner: RaspRunner, sm: RaspStateMachine) -> Tuple[Any, str]:
+        runner.start_process()
+        while True:
+            state: str = sm.check_for_change()
+            candidate: Any = self.choose_candidate(state)
+            candidate = self.fuzz(candidate)
+            result, outcome = runner.run(candidate)
+            if outcome == "FAIL":
+                break
+        return result, outcome
 
-    def choose_candidate(self) -> Any:
-        pass
-
-    def run(self, runner: Runner, logger: Logger, sm: StateMachine) -> Tuple[Any, str]:
-        pass
-
-    def multiple_runs(self, runner: Runner, logger: Logger, sm: StateMachine, run_count: int) -> List[Tuple[Any, str]]:
-        pass
+    def multiple_runs(self, runner: RaspRunner, sm: RaspStateMachine, run_count: int) -> List[Tuple[Any, str]]:
+        return [self.run(runner, sm) for _ in range(run_count)]
 
