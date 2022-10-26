@@ -11,5 +11,5 @@ class RaspStateMachine(StateMachine):
     def set_state(self) -> str:
         pass
 
-    def wait_for_change(self) -> str:
+    def check_for_change(self) -> str:
         pass

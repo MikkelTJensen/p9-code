@@ -6,21 +6,21 @@ from typing import List, Any
 import threading
 
 
-def run_listener(log: Logger, sm: StateMachine) -> None:
-	listen: Listener = RaspListener(log, sm)
+def run_listener(log: SimpleLogger, sm: RaspStateMachine) -> None:
+	listen: RaspListener = RaspListener(log, sm)
 	listen.run()
 
 
-def run_fuzzer(cwd_path: str, log: Logger, sm: StateMachine) -> None:
+def run_fuzzer(cwd_path: str, log: SimpleLogger, sm: RaspStateMachine) -> None:
 	input_path: str = join(cwd_path, "packets")
-	parser: Parser = DocumentPacketParser(input_path)
+	parser: DocumentPacketParser = DocumentPacketParser(input_path)
 	seed: List[Any] = parser.load_seed()
 
-	mut: Mutator = DocumentPacketMutator()
-	run: Runner = RaspRunner()
+	mut: DocumentPacketMutator = DocumentPacketMutator()
+	run: RaspRunner = RaspRunner(log)
 
-	fuzz: Fuzzer = RaspFuzzer(seed, mut)
-	result = fuzz.multiple_runs(run, log, sm, len(seed))
+	fuzz: RaspFuzzer = RaspFuzzer(seed, mut)
+	result = fuzz.multiple_runs(run, sm, len(seed))
 	print(result)
 
 
@@ -30,11 +30,11 @@ def main() -> None:
 		cwd_path = join(cwd_path, "python_fuzzer")
 
 	logger_path: str = join(cwd_path, "log_files")
-	log: Logger = SimpleLogger(logger_path)
+	log: SimpleLogger = SimpleLogger(logger_path)
 
-	sm: StateMachine = RaspStateMachine()
+	sm: RaspStateMachine = RaspStateMachine()
 
-	listener_thread = threading.Thread(target=run_listener, args=(cwd_path, log, sm))
+	listener_thread = threading.Thread(target=run_listener, args=(log, sm))
 	listener_thread.start()
 
 	fuzzer_thread = threading.Thread(target=run_fuzzer, args=(cwd_path, log, sm))

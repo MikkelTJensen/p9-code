@@ -11,5 +11,5 @@ class StateMachine(ABC):
         pass
 
     @abstractmethod
-    def wait_for_change(self) -> str:
+    def check_for_change(self) -> str:
         pass
