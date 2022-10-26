@@ -11,3 +11,6 @@ class RaspRunner(BaseRunner):
 
     def run(self, func_inp: Any) -> Tuple[Any, str]:
         pass
+
+    def start_process(self):
+        pass
