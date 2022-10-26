@@ -7,7 +7,7 @@ class SimpleLogger(Logger):
     def __init__(self, path: str):
         self.path: str = path
 
-    def log_message(self, inp: Any) -> None:
+    def log_traffic(self, inp: Any) -> None:
         # TODO: Implement
         pass
 
