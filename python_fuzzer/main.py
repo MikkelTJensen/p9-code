@@ -13,7 +13,7 @@ def run_listener(log: SimpleLogger, sm: RaspStateMachine) -> None:
 
 def run_fuzzer(cwd_path: str, log: SimpleLogger, sm: RaspStateMachine) -> None:
 	input_path: str = join(cwd_path, "packets")
-	parser: DocumentPacketParser = DocumentPacketParser(input_path)
+	parser: PacketParser = PacketParser(input_path)
 	seed: List[Any] = parser.load_seed()
 
 	mut: DocumentPacketMutator = DocumentPacketMutator()
