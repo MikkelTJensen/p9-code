@@ -7,7 +7,7 @@ class StateMachine(ABC):
         pass
 
     @abstractmethod
-    def set_state(self) -> str:
+    def set_state(self) -> None:
         pass
 
     @abstractmethod

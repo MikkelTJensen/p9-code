@@ -8,7 +8,7 @@ class RaspStateMachine(StateMachine):
     def get_state(self) -> str:
         pass
 
-    def set_state(self) -> str:
+    def set_state(self) -> None:
         pass
 
     def check_for_change(self) -> str:
