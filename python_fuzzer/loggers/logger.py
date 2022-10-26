@@ -4,7 +4,7 @@ from typing import Any
 
 class Logger(ABC):
     @abstractmethod
-    def log_message(self, inp: Any) -> None:
+    def log_traffic(self, inp: Any) -> None:
         pass
 
     @abstractmethod
