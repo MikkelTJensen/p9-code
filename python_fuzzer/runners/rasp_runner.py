@@ -1,4 +1,4 @@
-from typing import Any, Tuple, Callable
+from typing import Any, Tuple
 
 from .base_runner import BaseRunner
 

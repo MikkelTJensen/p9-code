@@ -1,4 +1,3 @@
-import random
 from typing import Any, List, Tuple
 
 from .fuzzer import Fuzzer
