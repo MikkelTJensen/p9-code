@@ -4,9 +4,8 @@ from .runner import Runner
 
 
 class BaseRunner(Runner):
-    # TODO: Callable type
-    def __init__(self, function) -> None:
-        self.function = function
+    def __init__(self, function: Callable[..., Any]) -> None:
+        self.function: Callable[..., Any] = function
         self.PASS: str = 'PASS'
         self.FAIL: str = 'FAIL'
         self.UNRESOLVED: str = 'UNRESOLVED'
