@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<log4net>
+  <!-- **************************** -->
+  <!-- Configuration of the logger: -->
+  <!-- http://logging.apache.org/log4net/release/config-examples.html -->
+  <!--  -->
+  <!-- **************************** -->
+  <root>
+    <priority value="Info" />
+    <!-- priority value="All" / -->
+    <!-- **************************** -->
+    <!-- Select the appender type you want to use. -->
+    <!-- If more then one is selected, the information -->
+    <!-- will be logged more the one place. -->
+    <!-- Meaning that if both 'ConsoleAppender' and -->
+    <!-- 'ColoredConsoleAppender' is selected the information -->
+    <!-- will be logged twice in the console. One normal, and -->
+    <!-- ones with colors. -->
+    <!-- **************************** -->
+    <!--
+    <appender-ref ref="TraceAppender" />
+    <appender-ref ref="ConsoleAppender" />
+    <appender-ref ref="ColoredConsoleAppender" />
+    <appender-ref ref="FileAppender" />
+    <appender-ref ref="SQliteNetAppender" />
+    <appender-ref ref="SQLiteNetAppender" />
+    -->
+    <appender-ref ref="FileAppender" />
+    <appender-ref ref="ConsoleAppender" />
+
+  </root>
+  
+  <appender name="TraceAppender" type="log4net.Appender.TraceAppender">
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date %-5level %property{sourceModule} %property{sourceMethod}%newline %message%newline" />
+    </layout>
+  </appender>
+
+  <appender name="ConsoleAppender" type="log4net.Appender.ConsoleAppender">
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date %-5level %property{sourceModule} %property{sourceMethod}%newline %message%newline" />
+    </layout>
+  </appender>
+  
+  <appender name="ColoredConsoleAppender" type="log4net.Appender.ColoredConsoleAppender">
+    <mapping>
+      <level value="FATAL" />
+      <foreColor value="White" />
+      <backColor value="Red, HighIntensity" />
+    </mapping>
+    <mapping>
+      <level value="ERROR" />
+      <foreColor value="White" />
+      <backColor value="Red" />
+    </mapping>
+    <mapping>
+      <level value="WARN" />
+      <backColor value="Yellow" />
+    </mapping>
+    <mapping>
+      <level value="INFO" />
+      <foreColor value="Green" />
+    </mapping>
+    <mapping>
+      <level value="DEBUG" />
+      <foreColor value="Gray" />
+    </mapping>
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date %-5level %property{sourceModule} %property{sourceMethod}%newline %message%newline" />
+    </layout>
+  </appender>
+
+  <appender name="FileAppender" type="log4net.Appender.FileAppender">
+		<file value=".\\log-file.log4net.txt" />
+		<appendToFile value="true" />
+		<lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+		<layout type="log4net.Layout.PatternLayout">
+			<conversionPattern value="%date %-5level %property{sourceModule} %property{sourceClass}.%property{sourceMethod}(%property{sourceLine})%newline %message%newline" />
+		</layout>
+	</appender>
+
+</log4net>
+
