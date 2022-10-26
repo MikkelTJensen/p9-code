@@ -1,4 +1,3 @@
-from asyncio.log import logger
 from typing import Any, Tuple, Callable
 
 from .base_runner import BaseRunner
