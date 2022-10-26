@@ -1,5 +1,5 @@
 from .listener import Listener
-from python_fuzzer.loggers.logger  import Logger
+from python_fuzzer.loggers.logger import Logger
 from python_fuzzer.state_machines.state_machine import StateMachine
 
 
