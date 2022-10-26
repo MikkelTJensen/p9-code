@@ -40,7 +40,7 @@ if __name__ == "__main__":
     path = dirname(path)
     path = join(path, "packets")
 
-    parser: DocumentPacketParser = DocumentPacketParser(path)
+    parser: PacketParser = PacketParser(path)
     # The seed is a list of packet lists, which can contain packet lists themselves
     seed = parser.load_seed()
     # Here we access the first packet list of the seed
