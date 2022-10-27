@@ -1,8 +1,15 @@
 from asyncio import subprocess
 from typing import Any, Tuple, Callable
 from subprocess import run
+from os import getcwd
+from os.path import join
 
-from .base_runner import BaseRunner
+if __name__ == "__main__":
+    from base_runner import BaseRunner
+else:
+    from .base_runner import BaseRunner
+
+from python_fuzzer.loggers.simple_logger import SimpleLogger
 from python_fuzzer.loggers.logger import Logger
 
 
@@ -18,4 +25,14 @@ class RaspRunner(BaseRunner):
         pass
 
     def start_process(self):
-        run([])
+        run([self.path])
+
+if __name__ == '__main__':
+    cwd = getcwd()
+    logger : SimpleLogger = SimpleLogger(cwd)
+    clientsample = join(cwd, "..", "..", "..", "Release", "dk.gov.oiosi.samples.ClientExample.exe")
+    print(clientsample)
+    runner:RaspRunner = RaspRunner(logger, clientsample)
+    
+    
+    runner.start_process()
