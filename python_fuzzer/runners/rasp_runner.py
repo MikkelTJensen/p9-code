@@ -1,6 +1,5 @@
-from asyncio import subprocess
 from typing import Any, Tuple, Callable
-from subprocess import run
+from subprocess import run, PIPE
 from os import getcwd
 from os.path import join
 
@@ -11,6 +10,15 @@ else:
 
 from python_fuzzer.loggers.simple_logger import SimpleLogger
 from python_fuzzer.loggers.logger import Logger
+
+def terminated_read(fd, terminators):
+    buf = []
+    while True:
+        r = fd.read(1).decode()
+        buf += r
+        if r in terminators:
+            break
+    return ''.join(buf)
 
 
 class RaspRunner(BaseRunner):
@@ -25,14 +33,19 @@ class RaspRunner(BaseRunner):
         pass
 
     def start_process(self):
-        run([self.path])
+        # Input is the options chosen in the Client
+        p = run(["powershell", "-Command", "dk.gov.oiosi.samples.ClientExample.exe"],
+                cwd=self.path,
+                timeout=20,
+                input=b"1\n2\n4")
+
+
 
 if __name__ == '__main__':
     cwd = getcwd()
-    logger : SimpleLogger = SimpleLogger(cwd)
-    clientsample = join(cwd, "..", "..", "..", "Release", "dk.gov.oiosi.samples.ClientExample.exe")
-    print(clientsample)
-    runner:RaspRunner = RaspRunner(logger, clientsample)
-    
-    
+    # Get path to the folder of the ClientExample
+    cwd = join(cwd, "..", "..", "..", "Release")
+    logger: SimpleLogger = SimpleLogger(cwd)
+    runner: RaspRunner = RaspRunner(logger, cwd)
+
     runner.start_process()
