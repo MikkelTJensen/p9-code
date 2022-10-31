@@ -1,9 +1,6 @@
 from typing import Any, Tuple, Callable
 
-if __name__ == "__main__":
-    from runner import Runner
-else:
-    from runner import Runner
+from .runner import Runner
 
 
 class BaseRunner(Runner):

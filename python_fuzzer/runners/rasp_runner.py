@@ -12,16 +12,6 @@ from python_fuzzer.loggers.simple_logger import SimpleLogger
 from python_fuzzer.loggers.logger import Logger
 
 
-def terminated_read(fd, terminators):
-    buf = []
-    while True:
-        r = fd.read(1).decode()
-        buf += r
-        if r in terminators:
-            break
-    return ''.join(buf)
-
-
 class RaspRunner(BaseRunner):
     def __init__(self, log: Logger, path: str) -> None:
         # TODO: make a function which can send a scapy packet and replace it with "None" below
