@@ -11,6 +11,7 @@ else:
 from python_fuzzer.loggers.simple_logger import SimpleLogger
 from python_fuzzer.loggers.logger import Logger
 
+
 def terminated_read(fd, terminators):
     buf = []
     while True:
@@ -40,12 +41,11 @@ class RaspRunner(BaseRunner):
                 input=b"1\n2\n4")
 
 
-
 if __name__ == '__main__':
     cwd = getcwd()
     # Get path to the folder of the ClientExample
-    cwd = join(cwd, "..", "..", "..", "Release")
+    clientfolder = "C:\\Users\\emilf\\Documents\\repos\\Release"
     logger: SimpleLogger = SimpleLogger(cwd)
-    runner: RaspRunner = RaspRunner(logger, cwd)
+    runner: RaspRunner = RaspRunner(logger, clientfolder)
 
     runner.start_process()
