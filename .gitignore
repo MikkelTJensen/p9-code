@@ -167,3 +167,6 @@ dmypy.json
 
 # idea
 .idea/
+
+# executables
+python_fuzzer/executables/ClientExample/*
