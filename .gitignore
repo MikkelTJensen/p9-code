@@ -169,4 +169,4 @@ dmypy.json
 .idea/
 
 # executables
-python_fuzzer/ClientExample
+python_fuzzer/ClientExample/*
