@@ -33,7 +33,6 @@ class RaspRunner(BaseRunner):
                 capture_output=True)
         if process.returncode != 0:
             logger.log_crash(process.stderr)
-        # print(process.stdout)
 
 
 if __name__ == '__main__':
