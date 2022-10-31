@@ -13,11 +13,12 @@ def run_listener(log: SimpleLogger, sm: RaspStateMachine) -> None:
 
 def run_fuzzer(cwd_path: str, log: SimpleLogger, sm: RaspStateMachine) -> None:
     input_path: str = join(cwd_path, "packets")
+    process_path: str = join(cwd_path, "executables", "ClientExample")
     parser: PacketParser = PacketParser(input_path)
     seed: List[Any] = parser.load_seed()
 
     mut: DocumentPacketMutator = DocumentPacketMutator()
-    run: RaspRunner = RaspRunner(log, "C:\\Users\\emilf\\Documents\\repos\\Release")
+    run: RaspRunner = RaspRunner(log, process_path)
 
     fuzz: RaspFuzzer = RaspFuzzer(seed, mut)
     result = fuzz.multiple_runs(run, sm, len(seed))

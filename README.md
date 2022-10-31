@@ -15,3 +15,5 @@ export PYTHONPATH=/home/local/Documents/gitshit/p9-code/python_fuzzer
 
 from p9-code:
 python3 -m python_fuzzer.main
+
+#To run the runner copy whats in dk.gov.oiosi.samples.ClientExample/bin/ Depug or Release folder to the executables/ClientExample

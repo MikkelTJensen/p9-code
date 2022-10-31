@@ -32,15 +32,15 @@ class RaspRunner(BaseRunner):
                 input=b"1\n2\n4",
                 capture_output=True)
         if process.returncode != 0:
-            logger.log_crash(process.stderr)
+            self.logger.log_crash(process.stderr)
 
 
 if __name__ == '__main__':
-    cwd = getcwd()
+    cwd_path = getcwd()
     # Get path to the folder of the ClientExample
-    clientfolder = "C:\\Users\\emilf\\Documents\\repos\\Release"
-    logger: SimpleLogger = SimpleLogger(cwd)
-    runner: RaspRunner = RaspRunner(logger, clientfolder)
+    process_path: str = join(cwd_path, "..", "executables", "ClientExample")
+    logger: SimpleLogger = SimpleLogger(cwd_path)
+    runner: RaspRunner = RaspRunner(logger, process_path)
 
     # Test that python does not crashes
     for _ in range(3):
