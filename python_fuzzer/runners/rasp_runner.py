@@ -25,10 +25,15 @@ class RaspRunner(BaseRunner):
 
     def start_process(self):
         # Input is the options chosen in the Client
-        p = run(["powershell", "-Command", "dk.gov.oiosi.samples.ClientExample.exe"],
+        process = run(["dk.gov.oiosi.samples.ClientExample.exe"],
+                shell=True,
                 cwd=self.path,
                 timeout=20,
-                input=b"1\n2\n4")
+                input=b"1\n2\n4",
+                capture_output=True)
+        if process.returncode != 0:
+            logger.log_crash(process.stderr)
+        # print(process.stdout)
 
 
 if __name__ == '__main__':
@@ -38,4 +43,6 @@ if __name__ == '__main__':
     logger: SimpleLogger = SimpleLogger(cwd)
     runner: RaspRunner = RaspRunner(logger, clientfolder)
 
-    runner.start_process()
+    # Test that python does not crashes
+    for _ in range(3):
+        runner.start_process()
