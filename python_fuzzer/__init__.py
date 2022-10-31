@@ -10,7 +10,7 @@ from state_machines import *
 __all__ = ["Client", "DocumentPacketClient",
            "Logger", "SimpleLogger",
            "Mutator", "DocumentPacketMutator",
-           "Parser", "DocumentPacketParser",
+           "Parser", "PacketParser",
            "Runner", "DocumentPacketRunner", "RaspRunner",
            "Fuzzer", "DocumentPacketFuzzer", "RaspFuzzer",
            "Listener", "RaspListener",

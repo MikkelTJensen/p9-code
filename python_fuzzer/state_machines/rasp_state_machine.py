@@ -8,8 +8,8 @@ class RaspStateMachine(StateMachine):
     def get_state(self) -> str:
         pass
 
-    def set_state(self) -> str:
+    def set_state(self) -> None:
         pass
 
-    def wait_for_change(self) -> str:
+    def check_for_change(self) -> str:
         pass
