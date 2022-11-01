@@ -1,16 +1,16 @@
 from scapy.packet import Packet
 from scapy.plist import PacketList
 
-from typing import Union
+from typing import Union, List
 
 
 class Seed:
-    def __init__(self):
-        self._data = []
-        self._index = 0
-        self._count = 0
+    def __init__(self) -> None:
+        self._data: List[Union[Packet, PacketList]] = []
+        self._index: int = 0
+        self._count: int = 0
 
-    def __getitem__(self, index):
+    def __getitem__(self, index) -> Packet:
         self._count = 0
         self._index = index
         try:
@@ -27,7 +27,7 @@ class Seed:
         except IndexError as err:
             print("Seed index out of range", err)
 
-    def __setitem__(self, index, item):
+    def __setitem__(self, index, item) -> None:
         try:
             if not isinstance(item, Packet) and not isinstance(item, PacketList):
                 raise TypeError
@@ -36,7 +36,7 @@ class Seed:
         except TypeError as err:
             print("Seed item was not recognized as a Packet or PacketList", err)
 
-    def __len__(self):
+    def __len__(self) -> int:
         count: int = 0
         for p in self._data:
             if isinstance(p, PacketList):
@@ -45,7 +45,7 @@ class Seed:
                 count += 1
         return count
 
-    def append(self, item):
+    def append(self, item) -> None:
         try:
             if not isinstance(item, Packet) and not isinstance(item, PacketList):
                 raise TypeError
