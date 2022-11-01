@@ -3,6 +3,7 @@ from subprocess import run, PIPE
 from os import getcwd
 from os.path import join
 from scapy import sendrecv
+from scapy.packet import Packet
 
 if __name__ == "__main__":
     from base_runner import BaseRunner
@@ -24,8 +25,8 @@ class RaspRunner(BaseRunner):
     def run(self, func_inp: Any) -> Tuple[Any, str]:
         pass
 
-    def send_packet(self, packet: Any) -> None:
-        sendrecv.sendp(packet)
+    def send_packet(self, p: Packet) -> None:
+        sendrecv.sendp(p)
         pass
 
     def start_process(self):
