@@ -2,7 +2,6 @@ from python_fuzzer import *
 
 from os import getcwd
 from os.path import join
-from typing import List, Any
 import threading
 
 
@@ -15,7 +14,7 @@ def run_fuzzer(cwd_path: str, log: SimpleLogger, sm: RaspStateMachine) -> None:
     input_path: str = join(cwd_path, "packets")
     process_path: str = join(cwd_path, "executables", "ClientExample")
     parser: PacketParser = PacketParser(input_path)
-    seed: List[Any] = parser.load_seed()
+    seed: Seed = parser.load_seed()
 
     mut: DocumentPacketMutator = DocumentPacketMutator()
     run: RaspRunner = RaspRunner(log, process_path)
