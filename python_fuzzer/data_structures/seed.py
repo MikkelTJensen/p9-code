@@ -1,50 +1,74 @@
 from scapy.packet import Packet
 from scapy.plist import PacketList
 
-from typing import Union
+from typing import Union, List
 
 
 class Seed:
-    def __init__(self):
-        self._data = []
-        self._index = 0
-        self._count = 0
+    def __init__(self) -> None:
+        self._data: List[Union[Packet, PacketList]] = []
+        self._index: int = 0
+        self._count: int = 0
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> Packet:
         self._count = 0
         self._index = index
+        try:
+            for p in self._data:
+                if isinstance(p, PacketList):
+                    packet = self._find_item_helper(p)
+                    if packet:
+                        return packet
+                elif self._count == self._index:
+                    return p
+                else:
+                    self._count += 1
+            raise IndexError
+        except IndexError as err:
+            print("Seed index out of range", err)
 
+    def __setitem__(self, index: int, item: Union[Packet, PacketList]) -> None:
+        try:
+            if not isinstance(item, Packet) and not isinstance(item, PacketList):
+                raise TypeError
+            else:
+                self._data[index] = item
+        except TypeError as err:
+            print("Seed item was not recognized as a Packet or PacketList", err)
+
+    def __len__(self) -> int:
+        count: int = 0
         for p in self._data:
             if isinstance(p, PacketList):
-                packet = self.find_item_helper(p)
-                if packet:
-                    return packet
-            elif self._count == self._index:
-                return p
+                count += self._count_packets(p)
             else:
-                self._count += 1
+                count += 1
+        return count
 
-        raise IndexError
+    def append(self, item: Union[Packet, PacketList]) -> None:
+        try:
+            if not isinstance(item, Packet) and not isinstance(item, PacketList):
+                raise TypeError
+            else:
+                self._data.append(item)
+        except TypeError as err:
+            print("Seed item was not recognized as a Packet or PacketList", err)
 
-    def __setitem__(self, index, item):
-        if not isinstance(item, Packet) and not isinstance(item, PacketList):
-            raise TypeError
-        else:
-            self._data[index] = item
-
-    def __len__(self):
-        return len(self._data)
-
-    def append(self, item):
-        if not isinstance(item, Packet) and not isinstance(item, PacketList):
-            raise TypeError
-        else:
-            self._data.append(item)
-
-    def find_item_helper(self, pl: PacketList) -> Union[Packet, None]:
+    def _count_packets(self, pl: PacketList) -> int:
+        count: int = 0
         for item in pl:
             if isinstance(item, PacketList):
-                self.find_item_helper(item)
+                count += self._count_packets(item)
+            else:
+                count += 1
+        return count
+
+    def _find_item_helper(self, pl: PacketList) -> Union[Packet, None]:
+        for item in pl:
+            if isinstance(item, PacketList):
+                temp = self._find_item_helper(item)
+                if temp:
+                    return temp
             elif self._count == self._index:
                 return item
             else:
