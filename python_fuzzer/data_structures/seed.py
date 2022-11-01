@@ -66,7 +66,9 @@ class Seed:
     def _find_item_helper(self, pl: PacketList) -> Union[Packet, None]:
         for item in pl:
             if isinstance(item, PacketList):
-                self._find_item_helper(item)
+                temp = self._find_item_helper(item)
+                if temp:
+                    return temp
             elif self._count == self._index:
                 return item
             else:
