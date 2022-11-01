@@ -6,6 +6,7 @@ from runners import *
 from fuzzers import *
 from listeners import *
 from state_machines import *
+from data_structures import *
 
 __all__ = ["Client", "DocumentPacketClient",
            "Logger", "SimpleLogger",
@@ -14,4 +15,5 @@ __all__ = ["Client", "DocumentPacketClient",
            "Runner", "DocumentPacketRunner", "RaspRunner",
            "Fuzzer", "DocumentPacketFuzzer", "RaspFuzzer",
            "Listener", "RaspListener",
-           "StateMachine", "RaspStateMachine"]
+           "StateMachine", "RaspStateMachine",
+           "Seed"]

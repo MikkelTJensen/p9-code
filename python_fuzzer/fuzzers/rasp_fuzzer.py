@@ -4,10 +4,11 @@ from python_fuzzer.fuzzers.doc_pack_fuzzer import DocumentPacketFuzzer
 from python_fuzzer.mutators.doc_pack_mutator import DocumentPacketMutator
 from python_fuzzer.state_machines.rasp_state_machine import RaspStateMachine
 from python_fuzzer.runners.rasp_runner import RaspRunner
+from python_fuzzer.data_structures.seed import Seed
 
 
 class RaspFuzzer(DocumentPacketFuzzer):
-    def __init__(self, seed: List[Any], mutator: DocumentPacketMutator):
+    def __init__(self, seed: Seed, mutator: DocumentPacketMutator):
         super().__init__(seed, mutator)
 
     def choose_candidate(self, state: str) -> Any:
