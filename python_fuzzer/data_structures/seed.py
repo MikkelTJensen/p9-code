@@ -10,7 +10,7 @@ class Seed:
         self._index: int = 0
         self._count: int = 0
 
-    def __getitem__(self, index) -> Packet:
+    def __getitem__(self, index: int) -> Packet:
         self._count = 0
         self._index = index
         try:
@@ -27,7 +27,7 @@ class Seed:
         except IndexError as err:
             print("Seed index out of range", err)
 
-    def __setitem__(self, index, item) -> None:
+    def __setitem__(self, index: int, item: Union[Packet, PacketList]) -> None:
         try:
             if not isinstance(item, Packet) and not isinstance(item, PacketList):
                 raise TypeError
@@ -45,7 +45,7 @@ class Seed:
                 count += 1
         return count
 
-    def append(self, item) -> None:
+    def append(self, item: Union[Packet, PacketList]) -> None:
         try:
             if not isinstance(item, Packet) and not isinstance(item, PacketList):
                 raise TypeError
