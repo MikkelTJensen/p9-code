@@ -2,16 +2,29 @@ from typing import Any, List, Tuple
 
 import sys
 sys.path.append("..")
-from fuzzers import DocumentPacketFuzzer
+from fuzzers import Fuzzer
 from mutators import PacketMutator
 from state_machines import RaspStateMachine
 from runners import RaspRunner
 from data_structures import Seed
 
 
-class RaspFuzzer(DocumentPacketFuzzer):
+class RaspFuzzer(Fuzzer):
     def __init__(self, seed: Seed, mutator: PacketMutator):
-        super().__init__(seed, mutator)
+        self.seed: Seed = seed
+        self.seed_length: int = len(self.seed)
+        self.seed_index: int = 0
+        self.population: List[Any] = []
+
+        self.mutator: PacketMutator = mutator
+
+    def reset(self) -> None:
+        self.population = []
+        self.seed_index = 0
+
+    def fuzz(self, inp: Any) -> Any:
+        # TODO: Multiple mutations
+        return self.mutator.mutate(inp)
 
     def choose_candidate(self, state: str) -> Any:
         # TODO: Choose seed based on the state of the RASP Protocol
