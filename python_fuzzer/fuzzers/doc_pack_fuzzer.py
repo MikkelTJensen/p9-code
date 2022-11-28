@@ -2,20 +2,20 @@ import random
 from typing import Any, List, Tuple
 
 from .fuzzer import Fuzzer
-from python_fuzzer.mutators.packet_mutator import DocumentPacketMutator
+from python_fuzzer.mutators.packet_mutator import PacketMutator
 from python_fuzzer.runners.doc_pack_runner import DocumentPacketRunner
 from python_fuzzer.loggers.simple_logger import SimpleLogger
 from python_fuzzer.data_structures.seed import Seed
 
 
 class DocumentPacketFuzzer(Fuzzer):
-    def __init__(self, seed: Seed, mutator: DocumentPacketMutator):
+    def __init__(self, seed: Seed, mutator: PacketMutator):
         self.seed: Seed = seed
         self.seed_length: int = len(self.seed)
         self.seed_index: int = 0
         self.population: List[Any] = []
 
-        self.mutator: DocumentPacketMutator = mutator
+        self.mutator: PacketMutator = mutator
 
     def reset(self) -> None:
         self.population = []

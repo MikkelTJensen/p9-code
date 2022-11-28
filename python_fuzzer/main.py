@@ -4,7 +4,7 @@ from loggers import SimpleLogger
 from state_machines import RaspStateMachine
 from fuzzers import RaspFuzzer
 from runners import RaspRunner
-from mutators import DocumentPacketMutator
+from mutators import PacketMutator
 from data_structures import Seed
 
 from os import getcwd
@@ -23,7 +23,7 @@ def run_fuzzer(cwd_path: str, log: SimpleLogger, sm: RaspStateMachine) -> None:
     parser: PacketParser = PacketParser(input_path)
     seed: Seed = parser.load_seed()
 
-    mut: DocumentPacketMutator = DocumentPacketMutator()
+    mut: PacketMutator = PacketMutator()
     run: RaspRunner = RaspRunner(log, process_path)
 
     fuzz: RaspFuzzer = RaspFuzzer(seed, mut)

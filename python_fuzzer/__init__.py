@@ -10,7 +10,7 @@ from .data_structures import *
 
 __all__ = ["Client", "DocumentPacketClient",
            "Logger", "SimpleLogger",
-           "Mutator", "DocumentPacketMutator",
+           "Mutator", "PacketMutator",
            "Parser", "PacketParser",
            "Runner", "DocumentPacketRunner", "RaspRunner",
            "Fuzzer", "DocumentPacketFuzzer", "RaspFuzzer",
