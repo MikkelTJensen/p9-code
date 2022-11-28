@@ -4,7 +4,7 @@ from typing import Any, List, Callable
 from .mutator import Mutator
 
 
-class DocumentPacketMutator(Mutator):
+class PacketMutator(Mutator):
     def __init__(self) -> None:
         # List mutator functions here
         self.mutators: List[Callable[[Any], Any]] = [self.change_nothing_mutator]
