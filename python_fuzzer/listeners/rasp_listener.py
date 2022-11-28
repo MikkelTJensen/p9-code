@@ -1,12 +1,10 @@
 from .listener import Listener
 from python_fuzzer.loggers.simple_logger import SimpleLogger
 from python_fuzzer.state_machines.rasp_state_machine import RaspStateMachine
-<<<<<<< HEAD
-from scapy.all import *
-=======
 from python_fuzzer.runners.rasp_runner import RaspRunner
 
->>>>>>> 72a56f222392bbecd1a8dac25c5d253f6b474678
+from scapy.all import *
+
 
 class RaspListener(Listener):
     def __init__(self, logger: SimpleLogger, state_machine: RaspStateMachine, runner: RaspRunner) -> None:
@@ -14,7 +12,7 @@ class RaspListener(Listener):
         self.sm: RaspStateMachine = state_machine
         self.runner = runner
 
-    def httpreq(packet):
+    def httpreq(self, packet):
         print(packet.summary())
         print("src/dst: "+packet[IP].src+" / "+packet[IP].dst)
         if packet.haslayer(Raw):
@@ -23,9 +21,13 @@ class RaspListener(Listener):
             print("Load: None\n")
 
     def run(self) -> None:
+        # TODO make the runner run the RASP server and client
+        # TODO then do below?
         pkts = sniff(iface="wlp2s0", prn=httpreq, filter="tcp and port 80", count=10)
+        # TODO then save the packets - possibly using the prn attribute
 
-if __name__ == '__main__':    
+
+if __name__ == '__main__':
     def handler(packet):
         print(packet.summary())
 
