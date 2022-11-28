@@ -20,7 +20,8 @@ def run_fuzzer(cwd_path: str, log: SimpleLogger, sm: RaspStateMachine) -> None:
     run: RaspRunner = RaspRunner(log, process_path)
 
     fuzz: RaspFuzzer = RaspFuzzer(seed, mut)
-    result = fuzz.multiple_runs(run, sm, len(seed))
+    #result = fuzz.multiple_runs(run, sm, len(seed))
+    result = ""
     print(result)
 
 
