@@ -2,7 +2,7 @@ import random
 from typing import Any, List, Tuple
 
 from .fuzzer import Fuzzer
-from python_fuzzer.mutators.doc_pack_mutator import DocumentPacketMutator
+from python_fuzzer.mutators.packet_mutator import DocumentPacketMutator
 from python_fuzzer.runners.doc_pack_runner import DocumentPacketRunner
 from python_fuzzer.loggers.simple_logger import SimpleLogger
 from python_fuzzer.data_structures.seed import Seed

@@ -1,5 +1,5 @@
 from typing import Any, Tuple, Callable
-from subprocess import run, PIPE
+from subprocess import run
 from os import getcwd
 from os.path import join
 

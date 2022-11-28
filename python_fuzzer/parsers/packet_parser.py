@@ -3,7 +3,9 @@ from scapy.all import rdpcap
 from os import listdir, getcwd
 from os.path import isfile, join, dirname
 
-from python_fuzzer.data_structures.seed import Seed
+import sys
+sys.path.append("..")
+from data_structures import Seed
 
 if __name__ == "__main__":
     from input_parser import InputParser

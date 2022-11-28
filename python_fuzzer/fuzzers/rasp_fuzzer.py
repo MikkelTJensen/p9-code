@@ -1,10 +1,12 @@
 from typing import Any, List, Tuple
 
-from python_fuzzer.fuzzers.doc_pack_fuzzer import DocumentPacketFuzzer
-from python_fuzzer.mutators.doc_pack_mutator import DocumentPacketMutator
-from python_fuzzer.state_machines.rasp_state_machine import RaspStateMachine
-from python_fuzzer.runners.rasp_runner import RaspRunner
-from python_fuzzer.data_structures.seed import Seed
+import sys
+sys.path.append("..")
+from fuzzers import DocumentPacketFuzzer
+from mutators import DocumentPacketMutator
+from state_machines import RaspStateMachine
+from runners import RaspRunner
+from data_structures import Seed
 
 
 class RaspFuzzer(DocumentPacketFuzzer):
