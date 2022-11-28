@@ -1,4 +1,3 @@
-from .clients import *
 from .loggers import *
 from .mutators import *
 from .parsers import *
@@ -8,11 +7,10 @@ from .listeners import *
 from .state_machines import *
 from .data_structures import *
 
-__all__ = ["Client", "DocumentPacketClient",
-           "Logger", "SimpleLogger",
+__all__ = ["Logger", "SimpleLogger",
            "Mutator", "PacketMutator",
            "Parser", "PacketParser",
-           "Runner", "DocumentPacketRunner", "RaspRunner",
+           "Runner", "RaspRunner",
            "Fuzzer", "DocumentPacketFuzzer", "RaspFuzzer",
            "Listener", "RaspListener",
            "StateMachine", "RaspStateMachine",
