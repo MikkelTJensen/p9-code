@@ -3,14 +3,14 @@ from typing import Any, List, Tuple
 import sys
 sys.path.append("..")
 from fuzzers import DocumentPacketFuzzer
-from mutators import DocumentPacketMutator
+from mutators import PacketMutator
 from state_machines import RaspStateMachine
 from runners import RaspRunner
 from data_structures import Seed
 
 
 class RaspFuzzer(DocumentPacketFuzzer):
-    def __init__(self, seed: Seed, mutator: DocumentPacketMutator):
+    def __init__(self, seed: Seed, mutator: PacketMutator):
         super().__init__(seed, mutator)
 
     def choose_candidate(self, state: str) -> Any:
