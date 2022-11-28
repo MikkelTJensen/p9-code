@@ -1,22 +1,52 @@
-class SocketConnection():
-	def __init__(self, conn, addr, mb, socket_id):
-		self.conn = conn
-		self.addr = addr
-		self.message_buffer = mb
-		self.socket_id = socket_id
+import socket
+from typing import Tuple
 
-	def run(self):
+from message_buffer import MessageBuffer
+
+
+class SocketConnection:
+	def __init__(self, conn, addr: Tuple[str, int], mb: MessageBuffer, socket_id: int) -> None:
+		"""
+		Alternate between receiving and sending messages for the client connected through the socket
+		"""
+		self.conn = conn
+		self.addr: Tuple[str, int] = addr
+		self._message_buffer: MessageBuffer = mb
+		self.socket_id: int = socket_id
+
+	def run(self) -> None:
+		"""
+		Alternates between listening for messages and sending messages to the client
+		"""
 		with self.conn:
 			while True:
-				# Incoming from sender/receiver
-				data = self.conn.recv(1024)
-				if data:
-					self.handle_message(data)
-				# Send message back to sender/receiver (if any in buffer)
-				msg = self.message_buffer.check_for_message(self.socket_id)
-				if msg:
-					self.conn.sendall(msg)
+				inc: bool = self._handle_incoming()
+				out: bool = self._handle_outgoing()
+				if inc or out:
+					break
 
-	def handle_message(self, data):
-		msg = data.decode()
-		self.message_buffer.store_message(msg, self.socket_id)
+	def _handle_incoming(self) -> bool:
+		"""
+		Listen for messages from the client for 2.0 seconds, then timeout - store received message
+		:return: True if client has closed the connection, otherwise False
+		"""
+		try:
+			self.conn.settimeout(2.0)
+			data: bytes = self.conn.recv(1024)
+			if data:
+				msg: str = data.decode()
+				self._message_buffer.store_message(msg, self.socket_id)
+				return False
+		except socket.timeout:
+			return False
+		return True
+
+	def _handle_outgoing(self) -> bool:
+		"""
+		Check if a message is in the buffer for the client - send if there is
+		:return: False
+		"""
+		msg: bytes = self._message_buffer.pop_message(self.socket_id)
+		if msg:
+			self.conn.sendall(msg)
+		return False
