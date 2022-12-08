@@ -25,7 +25,6 @@ def main(listen_for_traffic: bool) -> None:
     sm: RaspStateMachine = RaspStateMachine()
 
     # Initialize the runner
-    # TODO: ClientExample should probably be ServerExample
     process_path: str = os.path.join(cwd_path, "executables", "ClientExample")
     run: RaspRunner = RaspRunner(log, process_path)
 
@@ -59,4 +58,5 @@ if __name__ == '__main__':
 
     args = p.parse_args()
 
-    main(args.l)
+    main(True)
+    # main(args.l)

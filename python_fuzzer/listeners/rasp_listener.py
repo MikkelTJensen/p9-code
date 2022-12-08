@@ -21,8 +21,8 @@ class RaspListener(Listener):
             print("Load: None\n")
 
     def run(self) -> None:
-        # TODO make the runner run the RASP server and client
-        # TODO then do below?
+        self.runner.start_process()
+        print("tet")
         pkts = sniff(iface="wlp2s0", prn=httpreq, filter="tcp and port 80", count=10)
         # TODO then save the packets - possibly using the prn attribute
 

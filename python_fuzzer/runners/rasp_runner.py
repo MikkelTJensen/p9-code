@@ -28,13 +28,15 @@ class RaspRunner(Runner):
     def start_process(self):
         # Input is the options chosen in the Client
         process = run(["dk.gov.oiosi.samples.ClientExample.exe"],
-                shell=True,
-                cwd=self.path,
-                timeout=20,
-                input=b"1\n2\n4",
-                capture_output=True)
+                      shell=True,
+                      cwd=self.path,
+                      input=b"1\n2\n1",
+                      capture_output=True)
+
         if process.returncode != 0:
             self.logger.log_crash(process.stderr)
+        else:
+            print("test")
 
 
 if __name__ == '__main__':
@@ -44,6 +46,6 @@ if __name__ == '__main__':
     logger: SimpleLogger = SimpleLogger(cwd_path)
     runner: RaspRunner = RaspRunner(logger, process_path)
 
-    # Test that python does not crashes
+    # Test that python does not crash
     for _ in range(3):
         runner.start_process()
