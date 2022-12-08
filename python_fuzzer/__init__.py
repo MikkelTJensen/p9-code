@@ -11,7 +11,7 @@ __all__ = ["Logger", "SimpleLogger",
            "Mutator", "PacketMutator",
            "Parser", "PacketParser",
            "Runner", "RaspRunner",
-           "Fuzzer", "DocumentPacketFuzzer", "RaspFuzzer",
+           "Fuzzer", "RaspFuzzer",
            "Listener", "RaspListener",
            "StateMachine", "RaspStateMachine",
            "Seed"]
