@@ -2803,7 +2803,7 @@
   <ConfigurationSection xsi:type="RootCertificateCollectionConfig">
     <RootCertificateLocationCollection>
       <RootCertificateLocation>
-          <StoreLocation>CurrentUser</StoreLocation> 
+          <StoreLocation>LocalMachine</StoreLocation> 
           <StoreName>Root</StoreName> 
           <SerialNumber>5baa3fb7</SerialNumber>
           <Description>TRUST2408 Systemtest XXXIV CA</Description>
