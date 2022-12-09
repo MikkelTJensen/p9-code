@@ -26,12 +26,10 @@ class RaspRunner(Runner):
 
     def start_process(self):
         # Input is the options chosen in the Client
-        input_choices = str.encode("1\n2\n" + str(CERT_INDEX))
         process = run(["dk.gov.oiosi.samples.ClientExample.exe"],
                 shell=True,
                 cwd=self.path,
                 timeout=20,
-                input=input_choices,
                 capture_output=True)
         if process.returncode != 0:
             self.logger.log_crash(process.stderr)

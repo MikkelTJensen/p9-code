@@ -6,7 +6,6 @@ from .fuzzers import *
 from .listeners import *
 from .state_machines import *
 from .data_structures import *
-from .config import *
 
 __all__ = ["Logger", "SimpleLogger",
            "Mutator", "PacketMutator",
@@ -15,5 +14,4 @@ __all__ = ["Logger", "SimpleLogger",
            "Fuzzer", "RaspFuzzer",
            "Listener", "RaspListener",
            "StateMachine", "RaspStateMachine",
-           "Seed",
-           "runner_config"]
+           "Seed"]
