@@ -34,7 +34,7 @@ class RaspRunner(Runner):
                       capture_output=True)
 
         if process.returncode != 0:
-            print("FAIL")
+            print(process.stderr)
             self.logger.log_crash(process.stderr)
         else:
             print("PASS")
