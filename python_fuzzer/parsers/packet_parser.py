@@ -2,10 +2,9 @@ from scapy.all import rdpcap
 from scapy.packet import Packet
 from scapy.plist import PacketList
 
+import os
+from typing import List
 
-from typing import List, Any
-from os import listdir, getcwd
-from os.path import isfile, join, dirname
 
 if __name__ == "__main__":
     from input_parser import InputParser
@@ -25,13 +24,13 @@ class PacketParser(InputParser):
         seed = []
 
         # Find all files in folder
-        files = [file for file in listdir(self.path) if isfile(join(self.path, file))]
+        files = [file for file in os.listdir(self.path) if os.path.isfile(os.path.join(self.path, file))]
         # Only keep files ending with .pcap or .pcapng
         files = [file for file in files if file.endswith(".pcap") or file.endswith(".pcapng")]
 
         # Load in saved packets at folder
         for file in files:
-            path = join(self.path, file)
+            path = os.path.join(self.path, file)
             packet_list = rdpcap(path)
             packet = None
 
