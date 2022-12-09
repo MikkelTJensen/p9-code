@@ -1,17 +1,21 @@
 from typing import Any, List, Tuple
+from scapy.packet import Packet
+
+if __name__ == "__main__":
+    from fuzzer import Fuzzer
+else:
+    from .fuzzer import Fuzzer
 
 import sys
 sys.path.append("..")
-from fuzzers import Fuzzer
 from mutators import PacketMutator
 from state_machines import RaspStateMachine
 from runners import RaspRunner
-from data_structures import Seed
 
 
 class RaspFuzzer(Fuzzer):
-    def __init__(self, seed: Seed, mutator: PacketMutator):
-        self.seed: Seed = seed
+    def __init__(self, seed: List[Packet], mutator: PacketMutator):
+        self.seed: List[Packet] = seed
         self.seed_length: int = len(self.seed)
         self.seed_index: int = 0
         self.population: List[Any] = []

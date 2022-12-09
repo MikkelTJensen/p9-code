@@ -5,13 +5,14 @@ from state_machines import RaspStateMachine
 from fuzzers import RaspFuzzer
 from runners import RaspRunner
 from mutators import PacketMutator
-from data_structures import Seed
 
 import os
 import argparse
+from typing import List
+from scapy.packet import Packet
 
 
-def main(listen_for_traffic: bool) -> None:
+def main(listen_for_traffic: bool, verbose: bool) -> None:
     # Get current working directory to create folders
     cwd_path: str = os.getcwd()
     if not cwd_path.endswith("python_fuzzer"):
@@ -25,19 +26,18 @@ def main(listen_for_traffic: bool) -> None:
     sm: RaspStateMachine = RaspStateMachine()
 
     # Initialize the runner
-    # TODO: ClientExample should probably be ServerExample
     process_path: str = os.path.join(cwd_path, "executables", "ClientExample")
     run: RaspRunner = RaspRunner(log, process_path)
 
     # Initialize and run the listener
+    packet_path: str = os.path.join(cwd_path, "packets")
     if listen_for_traffic:
-        listen: RaspListener = RaspListener(log, sm, run)
+        listen: RaspListener = RaspListener(log, sm, run, packet_path, verbose)
         listen.run()
 
     # Parse the intercepted packets - or previously saved packets
-    packet_path: str = os.path.join(cwd_path, "packets")
     parser: PacketParser = PacketParser(packet_path)
-    seed: Seed = parser.load_seed()
+    seed: List[Packet] = parser.load_seed()
 
     # Initialize the mutator
     mut: PacketMutator = PacketMutator()
@@ -57,6 +57,11 @@ if __name__ == '__main__':
                    action="store_true",
                    help="Enable the listener - will execute before the fuzzer")
 
+    p.add_argument("--v",
+                   default=False,
+                   action="store_true",
+                   help="Use this flag if fuzzing process information should be printed")
+
     args = p.parse_args()
 
-    main(args.l)
+    main(args.l, args.v)
