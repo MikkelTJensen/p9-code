@@ -1,9 +1,13 @@
 from typing import Any, List, Tuple
 from scapy.packet import Packet
 
+if __name__ == "__main__":
+    from fuzzer import Fuzzer
+else:
+    from .fuzzer import Fuzzer
+
 import sys
 sys.path.append("..")
-from fuzzers import Fuzzer
 from mutators import PacketMutator
 from state_machines import RaspStateMachine
 from runners import RaspRunner

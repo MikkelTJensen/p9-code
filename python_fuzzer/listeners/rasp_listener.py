@@ -1,11 +1,13 @@
-from python_fuzzer.loggers.simple_logger import SimpleLogger
-from python_fuzzer.state_machines.rasp_state_machine import RaspStateMachine
-from python_fuzzer.runners.rasp_runner import RaspRunner
-
 if __name__ == "__main__":
     from listener import Listener
 else:
     from .listener import Listener
+
+import sys
+sys.path.append("..")
+from loggers import SimpleLogger
+from state_machines import RaspStateMachine
+from runners import RaspRunner
 
 from scapy.all import *
 from threading import Thread

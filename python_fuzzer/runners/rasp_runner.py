@@ -8,12 +8,13 @@ if __name__ == "__main__":
 else:
     from .runner import Runner
 
-from python_fuzzer.loggers.simple_logger import SimpleLogger
-from python_fuzzer.loggers.logger import Logger
+import sys
+sys.path.append("..")
+from loggers import SimpleLogger
 
 
 class RaspRunner(Runner):
-    def __init__(self, log: Logger, path: str) -> None:
+    def __init__(self, log: SimpleLogger, path: str) -> None:
         # TODO: make a function which can send a scapy packet and replace it with "None" below
         function: Callable[..., Any] = lambda x: x
         self.PASS: str = 'PASS'
