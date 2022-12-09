@@ -33,7 +33,6 @@ class RaspRunner(Runner):
                       cwd=self.path,
                       timeout=20,
                       capture_output=True)
-                      
         if process.returncode != 0:
             print(process.stderr)
             self.logger.log_crash(process.stderr)
