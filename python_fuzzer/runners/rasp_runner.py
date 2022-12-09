@@ -10,7 +10,6 @@ else:
 
 from python_fuzzer.loggers.simple_logger import SimpleLogger
 from python_fuzzer.loggers.logger import Logger
-from python_fuzzer.config.runner_config import CERT_INDEX
 
 class RaspRunner(Runner):
     def __init__(self, log: Logger, path: str) -> None:
