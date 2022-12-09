@@ -30,13 +30,12 @@ def main(listen_for_traffic: bool, verbose: bool) -> None:
     run: RaspRunner = RaspRunner(log, process_path)
 
     # Initialize and run the listener
+    packet_path: str = os.path.join(cwd_path, "packets")
     if listen_for_traffic:
-        packet_path = os.path.join(cwd_path, "packets")
         listen: RaspListener = RaspListener(log, sm, run, packet_path, verbose)
         listen.run()
 
     # Parse the intercepted packets - or previously saved packets
-    packet_path: str = os.path.join(cwd_path, "packets")
     parser: PacketParser = PacketParser(packet_path)
     seed: List[Packet] = parser.load_seed()
 
