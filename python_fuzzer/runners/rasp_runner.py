@@ -11,6 +11,7 @@ else:
 from python_fuzzer.loggers.simple_logger import SimpleLogger
 from python_fuzzer.loggers.logger import Logger
 
+
 class RaspRunner(Runner):
     def __init__(self, log: Logger, path: str) -> None:
         # TODO: make a function which can send a scapy packet and replace it with "None" below
@@ -33,6 +34,7 @@ class RaspRunner(Runner):
                 capture_output=True)
         if process.returncode != 0:
             self.logger.log_crash(process.stderr)
+
 
 if __name__ == '__main__':
     cwd_path = getcwd()
