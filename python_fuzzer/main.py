@@ -11,7 +11,7 @@ import os
 import argparse
 
 
-def main(listen_for_traffic: bool) -> None:
+def main(listen_for_traffic: bool, verbose: bool) -> None:
     # Get current working directory to create folders
     cwd_path: str = os.getcwd()
     if not cwd_path.endswith("python_fuzzer"):
@@ -30,7 +30,8 @@ def main(listen_for_traffic: bool) -> None:
 
     # Initialize and run the listener
     if listen_for_traffic:
-        listen: RaspListener = RaspListener(log, sm, run)
+        packet_path = os.path.join(cwd_path, "packets")
+        listen: RaspListener = RaspListener(log, sm, run, packet_path, verbose)
         listen.run()
 
     # Parse the intercepted packets - or previously saved packets
@@ -56,7 +57,11 @@ if __name__ == '__main__':
                    action="store_true",
                    help="Enable the listener - will execute before the fuzzer")
 
+    p.add_argument("--v",
+                   default=False,
+                   action="store_true",
+                   help="Use this flag if fuzzing process information should be printed")
+
     args = p.parse_args()
 
-    main(True)
-    # main(args.l)
+    main(args.l, args.v)

@@ -30,13 +30,14 @@ class RaspRunner(Runner):
         process = run(["dk.gov.oiosi.samples.ClientExample.exe"],
                       shell=True,
                       cwd=self.path,
-                      input=b"1\n2\n1",
+                      input=b"1\n2\n3",
                       capture_output=True)
 
         if process.returncode != 0:
+            print("FAIL")
             self.logger.log_crash(process.stderr)
         else:
-            print("test")
+            print("PASS")
 
 
 if __name__ == '__main__':
@@ -48,4 +49,5 @@ if __name__ == '__main__':
 
     # Test that python does not crash
     for _ in range(3):
+        print(_)
         runner.start_process()
