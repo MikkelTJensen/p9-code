@@ -5,10 +5,11 @@ from state_machines import RaspStateMachine
 from fuzzers import RaspFuzzer
 from runners import RaspRunner
 from mutators import PacketMutator
-from data_structures import Seed
 
 import os
 import argparse
+from typing import List
+from scapy.packet import Packet
 
 
 def main(listen_for_traffic: bool, verbose: bool) -> None:
@@ -37,7 +38,7 @@ def main(listen_for_traffic: bool, verbose: bool) -> None:
     # Parse the intercepted packets - or previously saved packets
     packet_path: str = os.path.join(cwd_path, "packets")
     parser: PacketParser = PacketParser(packet_path)
-    seed: Seed = parser.load_seed()
+    seed: List[Packet] = parser.load_seed()
 
     # Initialize the mutator
     mut: PacketMutator = PacketMutator()

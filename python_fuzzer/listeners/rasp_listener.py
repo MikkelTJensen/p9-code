@@ -34,7 +34,7 @@ class RaspListener(Listener):
         elif platform == "win32":
             self.platform = "Ethernet"
 
-        self.max_packet_count = 10
+        self.max_packet_count = 1
 
     def run(self) -> None:
         if self.verbose:
@@ -63,6 +63,11 @@ class RaspListener(Listener):
     def packet_handler(self, packet):
         if self.verbose:
             print(packet.summary())
+
+        if True:
+            # TODO Find out how to make this reachable
+            packet_path = os.path.join(self.packet_path, "test.pcap")
+            wrpcap(packet_path, packet)
 
         print("src/dst: "+packet[IP].src+" / "+packet[IP].dst)
         if packet.haslayer(Raw):

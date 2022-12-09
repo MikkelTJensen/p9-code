@@ -5,7 +5,6 @@ from .runners import *
 from .fuzzers import *
 from .listeners import *
 from .state_machines import *
-from .data_structures import *
 
 __all__ = ["Logger", "SimpleLogger",
            "Mutator", "PacketMutator",
@@ -13,5 +12,4 @@ __all__ = ["Logger", "SimpleLogger",
            "Runner", "RaspRunner",
            "Fuzzer", "RaspFuzzer",
            "Listener", "RaspListener",
-           "StateMachine", "RaspStateMachine",
-           "Seed"]
+           "StateMachine", "RaspStateMachine"]
