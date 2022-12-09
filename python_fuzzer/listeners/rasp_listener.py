@@ -9,6 +9,7 @@ else:
 
 from scapy.all import *
 from threading import Thread
+from sys import platform
 
 
 class RaspListener(Listener):
@@ -25,21 +26,39 @@ class RaspListener(Listener):
         self.packet_path: str = packet_path
         self.verbose: bool = verbose
 
+        if platform == "linux" or platform == "linux2":
+            self.platform = "wlp2s0"
+        elif platform == "darwin":
+            # TODO update
+            self.platform = "wlp2s0"
+        elif platform == "win32":
+            self.platform = "Ethernet"
+
+        self.max_packet_count = 10
+
     def run(self) -> None:
         if self.verbose:
             print("Initializing threads...")
 
-        listener_thread = Thread(target=self.sniff_and_save)
+        listener_thread = Thread(target=self.sniff)
         runner_thread = Thread(target=self.runner.start_process)
-        listener_thread.run()
-        runner_thread.run()
+        listener_thread.start()
+        runner_thread.start()
 
         if self.verbose:
             print("Both threads have terminated...")
 
-    def sniff_and_save(self):
-        # TODO then save the packets - possibly using the prn attribute
-        pkts = sniff(iface="wlp2s0", prn=self.packet_handler, filter="tcp and port 80")
+    def sniff(self):
+        if self.verbose:
+            print("Sniffing...")
+
+        pkts = sniff(iface=self.platform,
+                     prn=self.packet_handler,
+                     filter="tcp and port 80",
+                     count=self.max_packet_count)
+
+        if self.verbose:
+            print("Stopped sniffing...")
 
     def packet_handler(self, packet):
         if self.verbose:
@@ -66,5 +85,8 @@ if __name__ == '__main__':
     process_path: str = os.path.join(cwd_path, "executables", "ClientExample")
     run: RaspRunner = RaspRunner(log, process_path)
 
-    listen: RaspListener = RaspListener(log, sm, run)
+    verbose = True
+    packet_path = os.path.join(cwd_path, "packets")
+
+    listen: RaspListener = RaspListener(log, sm, run, packet_path, verbose)
     listen.run()
