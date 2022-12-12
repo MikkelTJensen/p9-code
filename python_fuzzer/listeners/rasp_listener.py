@@ -73,12 +73,6 @@ class RaspListener(Listener):
             packet_path = os.path.join(self.packet_path, f"test{self.packet_store_counter}.cap")
             wrpcap(packet_path, packet)
 
-        print("src/dst: "+packet[IP].src+" / "+packet[IP].dst)
-        if packet.haslayer(Raw):
-            print("Load: \n"+str(packet[Raw].load, "ASCII"))
-        else:
-            print("Load: None\n")
-
 
 if __name__ == '__main__':
     cwd_path: str = os.getcwd()
