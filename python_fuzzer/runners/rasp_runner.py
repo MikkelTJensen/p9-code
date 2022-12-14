@@ -30,7 +30,7 @@ class RaspRunner(Runner):
 
     def send_packet(self, p: Packet) -> None:
         sendrecv.sendp(p)
-        pass
+        # Print packet has been send ?
 
     def start_process(self):
         # Input is the options chosen in the Client
