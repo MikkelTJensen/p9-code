@@ -34,7 +34,7 @@ class RaspListener(Listener):
             # TODO update
             self.platform = "wlp2s0"
         elif platform == "win32":
-            self.platform = "Ethernet"
+            self.platform = "Software Loopback Interface 1"
 
         self.max_packet_count = 20
         self.packet_store_counter = 0
