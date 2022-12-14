@@ -1,4 +1,4 @@
 from .mutator import Mutator
-from .doc_pack_mutator import DocumentPacketMutator
+from .packet_mutator import PacketMutator
 
-__all__ = ["Mutator", "DocumentPacketMutator"]
+__all__ = ["Mutator", "PacketMutator"]

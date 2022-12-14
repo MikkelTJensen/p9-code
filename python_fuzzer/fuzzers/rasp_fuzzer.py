@@ -1,15 +1,34 @@
 from typing import Any, List, Tuple
+from scapy.packet import Packet
 
-from python_fuzzer.fuzzers.doc_pack_fuzzer import DocumentPacketFuzzer
-from python_fuzzer.mutators.doc_pack_mutator import DocumentPacketMutator
-from python_fuzzer.state_machines.rasp_state_machine import RaspStateMachine
-from python_fuzzer.runners.rasp_runner import RaspRunner
-from python_fuzzer.data_structures.seed import Seed
+if __name__ == "__main__":
+    from fuzzer import Fuzzer
+else:
+    from .fuzzer import Fuzzer
+
+import sys
+sys.path.append("..")
+from mutators import PacketMutator
+from state_machines import RaspStateMachine
+from runners import RaspRunner
 
 
-class RaspFuzzer(DocumentPacketFuzzer):
-    def __init__(self, seed: Seed, mutator: DocumentPacketMutator):
-        super().__init__(seed, mutator)
+class RaspFuzzer(Fuzzer):
+    def __init__(self, seed: List[Packet], mutator: PacketMutator):
+        self.seed: List[Packet] = seed
+        self.seed_length: int = len(self.seed)
+        self.seed_index: int = 0
+        self.population: List[Any] = []
+
+        self.mutator: PacketMutator = mutator
+
+    def reset(self) -> None:
+        self.population = []
+        self.seed_index = 0
+
+    def fuzz(self, inp: Any) -> Any:
+        # TODO: Multiple mutations
+        return self.mutator.mutate(inp)
 
     def choose_candidate(self, state: str) -> Any:
         # TODO: Choose seed based on the state of the RASP Protocol
