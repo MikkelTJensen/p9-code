@@ -2,8 +2,12 @@ from typing import Any, Tuple, Callable
 from subprocess import run
 from os import getcwd
 from os.path import join
+
+import scapy.packet
 from scapy import sendrecv
 from scapy.packet import Packet
+from scapy.all import rdpcap
+from scapy import *
 
 if __name__ == "__main__":
     from runner import Runner
@@ -29,8 +33,8 @@ class RaspRunner(Runner):
         pass
 
     def send_packet(self, p: Packet) -> None:
-        sendrecv.sendp(p)
-        # Print packet has been send ?
+        answer, unanswered = sendrecv.sr(p)
+        # Return succes ?
 
     def start_process(self):
         # Input is the options chosen in the Client
@@ -51,6 +55,11 @@ if __name__ == '__main__':
     process_path: str = join(cwd_path, "..", "executables", "ClientExample")
     logger: SimpleLogger = SimpleLogger(cwd_path)
     runner: RaspRunner = RaspRunner(logger, process_path)
+
+    # Test sending Post packates
+    pcap_path: str = join(cwd_path, "..", "packets", "post_request_respond.pcapng")
+    pcap = rdpcap(pcap_path)
+    runner.send_packet(pcap)
 
     # Test that python does not crash
     for _ in range(3):
