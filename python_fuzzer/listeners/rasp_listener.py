@@ -36,7 +36,7 @@ class RaspListener(Listener):
         elif platform == "win32":
             self.platform = "Ethernet"
 
-        self.max_packet_count = 1
+        self.max_packet_count = 20
         self.packet_store_counter = 0
 
     def run(self) -> None:
@@ -48,6 +48,8 @@ class RaspListener(Listener):
         listener_thread.start()
         runner_thread.start()
 
+        runner_thread.join()
+        listener_thread.join()
         if self.verbose:
             print("Both threads have terminated...")
 
