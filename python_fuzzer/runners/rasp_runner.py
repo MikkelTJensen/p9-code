@@ -34,12 +34,12 @@ class RaspRunner(Runner):
         return (func_inp, result)
 
     def send_packet(self, p: Packet) -> None:
-        answer, unanswered = sendrecv.sr(p)
-        if answer != None:
+        answer, unanswered = sendrecv.sr(p, timeout= 20)
+        if len(answer) > 0:
             print(answer[0])
             print(answer[1])
             return self.PASS
-        elif unanswered != None:
+        elif len(unanswered) > 0:
             print(unanswered[0])
             print(unanswered[1])
             return self.FAIL
