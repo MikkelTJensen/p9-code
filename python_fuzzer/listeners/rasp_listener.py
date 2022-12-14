@@ -59,7 +59,7 @@ class RaspListener(Listener):
 
         pkts = sniff(iface=self.platform,
                      prn=self.packet_handler,
-                     filter="tcp and port 80",
+                     #filter="tcp and port 80",
                      count=self.max_packet_count)
 
         if self.verbose:
