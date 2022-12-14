@@ -30,11 +30,21 @@ class RaspRunner(Runner):
         self.path = path
 
     def run(self, func_inp: Any) -> Tuple[Any, str]:
-        pass
+        result = self.send_packet(func_inp)
+        return (func_inp, result)
 
     def send_packet(self, p: Packet) -> None:
         answer, unanswered = sendrecv.sr(p)
-        # Return succes ?
+        if answer != None:
+            print(answer[0])
+            print(answer[1])
+            return self.PASS
+        elif unanswered != None:
+            print(unanswered[0])
+            print(unanswered[1])
+            return self.FAIL
+        else:
+            return self.UNRESOLVED
 
     def start_process(self):
         # Input is the options chosen in the Client
