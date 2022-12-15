@@ -49,9 +49,9 @@ class RaspListener(Listener):
         if self.verbose:
             print("Sniffing...")
 
-        pkts = sniff(iface=self.interface,
-                     prn=self.packet_handler,
-                     count=self.max_packet_count)
+        sniff(iface=self.interface,
+            prn=self.packet_handler,
+            count=self.max_packet_count)
 
         if self.verbose:
             print("Stopped sniffing...")
