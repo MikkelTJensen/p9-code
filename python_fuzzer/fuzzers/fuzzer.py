@@ -19,9 +19,9 @@ class Fuzzer(ABC):
         pass
 
     @abstractmethod
-    def run(self, runner: Runner, logger: Logger) -> None:
+    def run(self) -> None:
         pass
 
     @abstractmethod
-    def multiple_runs(self, runner: Runner, logger: Logger, run_count: int) -> None:
+    def multiple_runs(self, run_count: int) -> None:
         pass

@@ -18,6 +18,8 @@ from loggers import SimpleLogger
 class RaspFuzzer(Fuzzer):
     def __init__(self,
                  seed: List[Packet],
+                 runner: RaspRunner,
+                 sm: RaspStateMachine,
                  mutator: PacketMutator,
                  logger: SimpleLogger,
                  verbose: bool,
@@ -30,6 +32,8 @@ class RaspFuzzer(Fuzzer):
 
         self.verbose: bool = verbose
 
+        self.runner = runner
+        self.state_machine = sm
         self.logger: SimpleLogger = logger
         self.mutator: PacketMutator = mutator
         self.mutation_count: int = mutation_count
@@ -56,10 +60,10 @@ class RaspFuzzer(Fuzzer):
             return candidate
 
     # TODO: Update below function when we have StateMachine and Runner working
-    def run(self, runner: RaspRunner, sm: RaspStateMachine) -> Tuple[Any, str]:
+    def run(self) -> Tuple[Any, str]:
         pass
 
-    def multiple_runs(self, runner: RaspRunner, sm: RaspStateMachine, run_count: int) -> List[Tuple[Any, str]]:
+    def multiple_runs(self, run_count: int) -> List[Tuple[Any, str]]:
         # TODO Filter so only crashes are returned if we want to run millions of iterations?
-        return [self.run(runner, sm) for _ in range(run_count)]
+        return [self.run() for _ in range(run_count)]
 
