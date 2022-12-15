@@ -4,8 +4,8 @@ from scapy.packet import Packet
 
 
 class RaspStateMachine(StateMachine):
-    def __init__(self) -> None:
-        pass
+    def __init__(self, verbose: bool) -> None:
+        self.verbose: bool = verbose
 
     def notify_of_packet(self, inp: Packet) -> None:
         # TODO: Implement

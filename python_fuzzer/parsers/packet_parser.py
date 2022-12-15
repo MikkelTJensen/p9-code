@@ -13,8 +13,9 @@ else:
 
 
 class PacketParser(InputParser):
-    def __init__(self, path: str):
+    def __init__(self, path: str, verbose: bool) -> None:
         self.path: str = path
+        self.verbose: bool = verbose
 
     def load_seed(self) -> List[Packet]:
         """

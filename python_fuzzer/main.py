@@ -20,14 +20,14 @@ def main(listen_for_traffic: bool, log_optional: bool, verbose: bool) -> None:
 
     # Initialize the logger
     logger_path: str = os.path.join(cwd_path, "log_files")
-    log: SimpleLogger = SimpleLogger(logger_path, log_optional)
+    log: SimpleLogger = SimpleLogger(logger_path, log_optional, verbose)
 
     # Initialize the state machine
-    sm: RaspStateMachine = RaspStateMachine()
+    sm: RaspStateMachine = RaspStateMachine(verbose)
 
     # Initialize the runner
     process_path: str = os.path.join(cwd_path, "executables", "ClientExample")
-    run: RaspRunner = RaspRunner(log, process_path)
+    run: RaspRunner = RaspRunner(log, process_path, verbose)
 
     # Initialize and run the listener
     packet_path: str = os.path.join(cwd_path, "packets")
@@ -36,14 +36,14 @@ def main(listen_for_traffic: bool, log_optional: bool, verbose: bool) -> None:
         listen.run()
 
     # Parse the intercepted packets - or previously saved packets
-    parser: PacketParser = PacketParser(packet_path)
+    parser: PacketParser = PacketParser(packet_path, verbose)
     seed: List[Packet] = parser.load_seed()
 
     # Initialize the mutator
-    mut: PacketMutator = PacketMutator()
+    mut: PacketMutator = PacketMutator(verbose)
 
     # Initialize and run the fuzzer
-    fuzz: RaspFuzzer = RaspFuzzer(seed, mut, log)
+    fuzz: RaspFuzzer = RaspFuzzer(seed, mut, log, verbose)
     result = fuzz.multiple_runs(run, sm, len(seed))
     print(result)
 

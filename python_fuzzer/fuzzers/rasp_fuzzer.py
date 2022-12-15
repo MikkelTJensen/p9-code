@@ -15,11 +15,13 @@ from loggers import SimpleLogger
 
 
 class RaspFuzzer(Fuzzer):
-    def __init__(self, seed: List[Packet], mutator: PacketMutator, logger: SimpleLogger):
+    def __init__(self, seed: List[Packet], mutator: PacketMutator, logger: SimpleLogger, verbose: bool) -> None:
         self.seed: List[Packet] = seed
         self.seed_length: int = len(self.seed)
         self.seed_index: int = 0
         self.population: List[Any] = []
+
+        self.verbose: bool = verbose
 
         self.mutator: PacketMutator = mutator
         self.logger: SimpleLogger = logger
