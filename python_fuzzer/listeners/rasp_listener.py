@@ -11,7 +11,6 @@ from runners import RaspRunner
 
 from scapy.all import *
 from threading import Thread
-from sys import platform
 
 
 class RaspListener(Listener):
@@ -28,15 +27,8 @@ class RaspListener(Listener):
         self.packet_path: str = packet_path
         self.verbose: bool = verbose
 
-        if platform == "linux" or platform == "linux2":
-            self.platform = "wlp2s0"
-        elif platform == "darwin":
-            # TODO update
-            self.platform = "wlp2s0"
-        elif platform == "win32":
-            self.platform = "Ethernet"
-
-        self.max_packet_count = 1
+        self.interface = "Software Loopback Interface 1"
+        self.max_packet_count = 20
         self.packet_store_counter = 0
 
     def run(self) -> None:
@@ -48,6 +40,8 @@ class RaspListener(Listener):
         listener_thread.start()
         runner_thread.start()
 
+        runner_thread.join()
+        listener_thread.join()
         if self.verbose:
             print("Both threads have terminated...")
 
@@ -55,10 +49,9 @@ class RaspListener(Listener):
         if self.verbose:
             print("Sniffing...")
 
-        pkts = sniff(iface=self.platform,
-                     prn=self.packet_handler,
-                     filter="tcp and port 80",
-                     count=self.max_packet_count)
+        sniff(iface=self.interface,
+            prn=self.packet_handler,
+            count=self.max_packet_count)
 
         if self.verbose:
             print("Stopped sniffing...")
@@ -68,10 +61,14 @@ class RaspListener(Listener):
             print(packet.summary())
 
         if packet.haslayer(Raw):
-            # TODO better condition above?
-            self.packet_store_counter += 1
-            packet_path = os.path.join(self.packet_path, f"test{self.packet_store_counter}.cap")
-            wrpcap(packet_path, packet)
+            load = str(packet[Raw].load)
+            if "CreateSequence<" in load or "SubmitInvoiceRequest" in load:
+                if self.logger.log_optional:
+                    self.logger.log_traffic(packet)
+                self.sm.notify_of_packet(packet)
+                self.packet_store_counter += 1
+                packet_path = os.path.join(self.packet_path, f"packet{self.packet_store_counter}.cap")
+                wrpcap(packet_path, packet)
 
 
 if __name__ == '__main__':
