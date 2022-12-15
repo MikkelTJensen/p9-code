@@ -1,4 +1,5 @@
 from typing import Any
+from scapy.packet import Packet
 
 from .logger import Logger
 
@@ -8,7 +9,7 @@ class SimpleLogger(Logger):
         self.path: str = path
         self.log_optional: bool = log_optional
 
-    def log_traffic(self, inp: Any) -> None:
+    def log_traffic(self, inp: Packet) -> None:
         # TODO: Implement
         pass
 
