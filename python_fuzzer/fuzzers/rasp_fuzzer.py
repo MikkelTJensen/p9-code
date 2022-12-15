@@ -64,7 +64,7 @@ class RaspFuzzer(Fuzzer):
     # TODO: Add some logging perhaps - at least evaluate output of runner
     def run(self) -> Tuple[Any, str]:
         packet: Packet = self.choose_candidate()
-        packet = self.fuzz(packet)
+        # packet = self.fuzz(packet)
         result, outcome = self.runner.run(packet)
         if outcome == "FAIL":
             self.population.append(packet)
