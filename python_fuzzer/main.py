@@ -12,7 +12,7 @@ from typing import List
 from scapy.packet import Packet
 
 
-def main(listen_for_traffic: bool, verbose: bool) -> None:
+def main(listen_for_traffic: bool, log_optional: bool, verbose: bool) -> None:
     # Get current working directory to create folders
     cwd_path: str = os.getcwd()
     if not cwd_path.endswith("python_fuzzer"):
@@ -20,7 +20,7 @@ def main(listen_for_traffic: bool, verbose: bool) -> None:
 
     # Initialize the logger
     logger_path: str = os.path.join(cwd_path, "log_files")
-    log: SimpleLogger = SimpleLogger(logger_path)
+    log: SimpleLogger = SimpleLogger(logger_path, log_optional)
 
     # Initialize the state machine
     sm: RaspStateMachine = RaspStateMachine()
@@ -52,16 +52,21 @@ if __name__ == '__main__':
     p = argparse.ArgumentParser(description="Arguments for network protocol fuzzing harness")
 
     # Call main.py with "--l" flag to run the listener
-    p.add_argument("--l",
+    p.add_argument("--listen",
                    default=False,
                    action="store_true",
                    help="Enable the listener - will execute before the fuzzer")
 
-    p.add_argument("--v",
+    p.add_argument("--log",
                    default=False,
                    action="store_true",
-                   help="Use this flag if fuzzing process information should be printed")
+                   help="Enable the logging, where logging is optional")
+
+    p.add_argument("--verbose",
+                   default=False,
+                   action="store_true",
+                   help="Use this flag if fuzzing process information should be printed to terminal")
 
     args = p.parse_args()
 
-    main(args.l, args.v)
+    main(args.listen, args.log, args.verbose)

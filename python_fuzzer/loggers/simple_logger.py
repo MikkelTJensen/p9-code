@@ -4,8 +4,9 @@ from .logger import Logger
 
 
 class SimpleLogger(Logger):
-    def __init__(self, path: str):
+    def __init__(self, path: str, log_optional: bool):
         self.path: str = path
+        self.log_optional: bool = log_optional
 
     def log_traffic(self, inp: Any) -> None:
         # TODO: Implement
