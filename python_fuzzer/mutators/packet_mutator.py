@@ -32,6 +32,8 @@ class PacketMutator(Mutator):
     def add_to_byte_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
         c = data[pos] + random.randint(1, 36)
+        if c >= 256:
+            c = 255
 
         data = data[:pos] + bytes([c]) + data[pos + 1:]
 
@@ -40,6 +42,8 @@ class PacketMutator(Mutator):
     def remove_from_byte_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
         c = data[pos] - random.randint(1, 36)
+        if c < 0:
+            c = 0
 
         data = data[:pos] + bytes([c]) + data[pos + 1:]
 
