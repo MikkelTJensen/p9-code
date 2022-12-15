@@ -34,7 +34,6 @@ class PacketMutator(Mutator):
 
         inp[Raw].load = inp[Raw].load[:pos] + str.encode(chr(c)) + inp[Raw].load[pos + 1:]
 
-
         return inp
 
     def remove_from_byte_mutator(self, inp: Any) -> Any:
@@ -42,6 +41,16 @@ class PacketMutator(Mutator):
         pos = random.randint(0, len(inp[Raw].load))
         c = inp[Raw].load[pos]
         c -= random.randint(1, 36)
+
+        inp[Raw].load = inp[Raw].load[:pos] + str.encode(chr(c)) + inp[Raw].load[pos + 1:]
+
+        return inp
+
+    def add_to_word_mutator(self, inp: Any) -> Any:
+
+        pos = random.randint(0, len(inp[Raw].load))
+        c = inp[Raw].load[pos]
+        c += random.randint(1, 36)
 
         inp[Raw].load = inp[Raw].load[:pos] + str.encode(chr(c)) + inp[Raw].load[pos + 1:]
 
@@ -57,8 +66,6 @@ class PacketMutator(Mutator):
     #    return inp[:pos] + random_character + inp[pos:]
 #
     #def remove_bit_mutator(self, inp: Any) -> Any:
-    #    if inp == "":
-    #        return inp
 #
     #    pos = random.randint(0, len(inp) - 1)
     #    return inp[:pos] + inp[pos + 1:]
