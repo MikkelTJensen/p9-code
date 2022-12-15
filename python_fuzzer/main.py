@@ -43,7 +43,7 @@ def main(listen_for_traffic: bool, log_optional: bool, verbose: bool) -> None:
     mut: PacketMutator = PacketMutator()
 
     # Initialize and run the fuzzer
-    fuzz: RaspFuzzer = RaspFuzzer(seed, mut)
+    fuzz: RaspFuzzer = RaspFuzzer(seed, mut, log)
     result = fuzz.multiple_runs(run, sm, len(seed))
     print(result)
 
@@ -51,7 +51,6 @@ def main(listen_for_traffic: bool, log_optional: bool, verbose: bool) -> None:
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description="Arguments for network protocol fuzzing harness")
 
-    # Call main.py with "--l" flag to run the listener
     p.add_argument("--listen",
                    default=False,
                    action="store_true",
