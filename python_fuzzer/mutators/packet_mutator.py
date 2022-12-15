@@ -22,18 +22,16 @@ class PacketMutator(Mutator):
     #string methods of this
     def flip_bit_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
-        c: chr = chr(data[pos])
         bit: int = 1 << random.randint(0, 6)
-        new_c: chr = chr(ord(c) ^ bit)
+        c: int = data[pos] ^ bit
 
-        data = data[:pos] + str.encode(new_c) + data[pos + 1:]
+        data = data[:pos] + str.encode(c) + data[pos + 1:]
 
         return data
 
     def add_to_byte_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
-        c: chr = chr(data[pos])
-        c = chr(ord(c) + random.randint(1, 36))
+        c = chr(data[pos] + random.randint(1, 36))
 
         data = data[:pos] + str.encode(c) + data[pos + 1:]
 
@@ -41,8 +39,7 @@ class PacketMutator(Mutator):
 
     def remove_from_byte_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
-        c: chr = chr(data[pos])
-        c = chr(ord(c) - random.randint(1, 36))
+        c = chr(data[pos] - random.randint(1, 36))
 
         data = data[:pos] + str.encode(c) + data[pos + 1:]
 
