@@ -23,7 +23,7 @@ class PacketMutator(Mutator):
     def flip_bit_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
         bit: int = 1 << random.randint(0, 6)
-        c: int = data[pos] ^ bit
+        c: chr = chr(data[pos] ^ bit)
 
         data = data[:pos] + str.encode(c) + data[pos + 1:]
 
