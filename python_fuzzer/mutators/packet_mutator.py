@@ -16,7 +16,6 @@ class PacketMutator(Mutator):
 
     #string methods of this
     def flip_bit_mutator(self, inp: Any) -> Any:
-
         pos = random.randint(0, len(inp[Raw].load) - 1)
         c = chr(inp[Raw].load[pos])
         bit = 1 << random.randint(0, 6)
@@ -27,7 +26,6 @@ class PacketMutator(Mutator):
         return inp
 
     def add_to_byte_mutator(self, inp: Any) -> Any:
-
         pos = random.randint(0, len(inp[Raw].load))
         c = inp[Raw].load[pos]
         c += random.randint(1, 36)
@@ -37,7 +35,6 @@ class PacketMutator(Mutator):
         return inp
 
     def remove_from_byte_mutator(self, inp: Any) -> Any:
-
         pos = random.randint(0, len(inp[Raw].load))
         c = inp[Raw].load[pos]
         c -= random.randint(1, 36)
@@ -46,26 +43,3 @@ class PacketMutator(Mutator):
 
         return inp
 
-    def add_to_word_mutator(self, inp: Any) -> Any:
-
-        pos = random.randint(0, len(inp[Raw].load))
-        c = inp[Raw].load[pos]
-        c += random.randint(1, 36)
-
-        inp[Raw].load = inp[Raw].load[:pos] + str.encode(chr(c)) + inp[Raw].load[pos + 1:]
-
-        return inp
-
-
-    #def add_byte_mutator(self, inp: Any) -> Any:
-    #    pos = random.randint(0, len(inp))
-    #    random_character = chr(random.randrange(32, 127))
-#
-    #    inp[Raw].load = inp[Raw].load[:pos] + str.encode(random_character) + inp[Raw].load[pos + 1:]
-#
-    #    return inp[:pos] + random_character + inp[pos:]
-#
-    #def remove_bit_mutator(self, inp: Any) -> Any:
-#
-    #    pos = random.randint(0, len(inp) - 1)
-    #    return inp[:pos] + inp[pos + 1:]
