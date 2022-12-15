@@ -19,55 +19,66 @@ from loggers import SimpleLogger
 
 class RaspRunner(Runner):
     def __init__(self, log: SimpleLogger, path: str,verbose: bool) -> None:
-        # TODO: make a function which can send a scapy packet and replace it with "None" below
-        function: Callable[..., Any] = lambda x: x
         self.PASS: str = 'PASS'
         self.FAIL: str = 'FAIL'
         self.UNRESOLVED: str = 'UNRESOLVED'
+
         self.logger: SimpleLogger = log
-        self.path: str = path
-        self.verbose: bool = verbose
+
         self.interface: str = "Software Loopback Interface 1"
-    def run(self, func_inp: Any) -> Tuple[Any, str]:
-        result = self.send_packet(func_inp)
-        return (func_inp, result)
+        self.executable_path: str = path
+        self.verbose: bool = verbose
 
-    def send_packet(self, p: Packet) -> str:
-        answer, unanswered = sendrecv.srp(p, iface=self.interface, timeout=20)
-        if len(answer) > 0:
-            if self.verbose:
-                for query in answer:
-                    print(query)
-            return self.PASS
-        elif len(unanswered) > 0:
-            return self.UNRESOLVED
+    def run(self, packet: Packet) -> Tuple[Any, str]:
+        result, outcome = self.send_packet(packet)
+        return result, outcome
 
-    def start_process(self):
-        # Input is the options chosen in the Client
-        process = run(["dk.gov.oiosi.samples.ClientExample.exe"],
-                      shell=True,
-                      cwd=self.path,
-                      timeout=30,
-                      capture_output=True)
+    def send_packet(self, p: Packet) -> Tuple[Any, str]:
+        try:
+            answer, unanswered = sendrecv.srp(p, iface=self.interface, timeout=20)
 
-        if process.returncode != 0:
-            print(process.stderr)
-            self.logger.log_crash(process.stderr)
+            if len(answer) > 0:
+                if self.verbose:
+                    for query in answer:
+                        print(query)
+                return answer, self.PASS
+            elif len(unanswered) > 0:
+                print("Unresolved attempt at sending packets - no answer received from server")
+                return unanswered, self.UNRESOLVED
+        except:
+            print("Failed attempt at sending packets")
+            return None, self.FAIL
+
+    def start_process(self) -> None:
+        try:
+            # Input is the options chosen in the Client
+            process = run(["dk.gov.oiosi.samples.ClientExample.exe"],
+                          shell=True,
+                          cwd=self.executable_path,
+                          timeout=30,
+                          capture_output=True)
+
+            if process.returncode != 0:
+                if self.verbose:
+                    print(process.stderr)
+
+                self.logger.log_crash(process.stderr)
+        except:
+            # TODO handle this better
+            pass
 
 
 if __name__ == '__main__':
     cwd_path = getcwd()
     # Get path to the folder of the ClientExample
     process_path: str = join(cwd_path, "..", "executables", "ClientExample")
-    logger: SimpleLogger = SimpleLogger(cwd_path, False, False)
-    runner: RaspRunner = RaspRunner(logger, process_path, True)
+    logger: SimpleLogger = SimpleLogger(cwd_path, verbose=False, log_optional=False)
+    runner: RaspRunner = RaspRunner(logger, process_path, verbose=True)
 
-    # Test sending Post packates
+    # Test sending Post packets
     pcap_path: str = join(cwd_path, "..", "packets", "post_request_respond.pcapng")
     pcap = rdpcap(pcap_path)
     runner.send_packet(pcap)
 
-    # Test that python does not crash
-    for _ in range(3):
-        print(_)
-        runner.start_process()
+    # Test that process is run correctly
+    # runner.start_process()
