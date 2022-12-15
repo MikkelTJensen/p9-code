@@ -23,24 +23,24 @@ class PacketMutator(Mutator):
     def flip_bit_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
         bit: int = 1 << random.randint(0, 6)
-        c: chr = chr(data[pos] ^ bit)
+        c: int = data[pos] ^ bit
 
-        data = data[:pos] + str.encode(c) + data[pos + 1:]
+        data = data[:pos] + bytes([c]) + data[pos + 1:]
 
         return data
 
     def add_to_byte_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
-        c = chr(data[pos] + random.randint(1, 36))
+        c = data[pos] + random.randint(1, 36)
 
-        data = data[:pos] + str.encode(c) + data[pos + 1:]
+        data = data[:pos] + bytes([c]) + data[pos + 1:]
 
         return data
 
     def remove_from_byte_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
-        c = chr(data[pos] - random.randint(1, 36))
+        c = data[pos] - random.randint(1, 36)
 
-        data = data[:pos] + str.encode(c) + data[pos + 1:]
+        data = data[:pos] + bytes([c]) + data[pos + 1:]
 
         return data
