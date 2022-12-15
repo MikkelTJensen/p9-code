@@ -15,7 +15,13 @@ from loggers import SimpleLogger
 
 
 class RaspFuzzer(Fuzzer):
-    def __init__(self, seed: List[Packet], mutator: PacketMutator, logger: SimpleLogger, verbose: bool) -> None:
+    def __init__(self,
+                 seed: List[Packet],
+                 mutator: PacketMutator,
+                 logger: SimpleLogger,
+                 verbose: bool,
+                 mutation_count) -> None:
+
         self.seed: List[Packet] = seed
         self.seed_length: int = len(self.seed)
         self.seed_index: int = 0
@@ -23,32 +29,26 @@ class RaspFuzzer(Fuzzer):
 
         self.verbose: bool = verbose
 
-        self.mutator: PacketMutator = mutator
         self.logger: SimpleLogger = logger
+        self.mutator: PacketMutator = mutator
+        self.mutation_count = mutation_count
 
     def reset(self) -> None:
         self.population = []
         self.seed_index = 0
 
-    def fuzz(self, inp: Any) -> Any:
-        # TODO: Multiple mutations
-        return self.mutator.mutate(inp)
+    def fuzz(self, packet: Packet) -> Packet:
+        for _ in range(self.mutation_count):
+            packet = self.mutator.mutate(packet)
+        return packet
 
-    def choose_candidate(self, state: str) -> Any:
+    def choose_candidate(self) -> Any:
         # TODO: Choose seed based on the state of the RASP Protocol
         return self.seed[0]
 
     # TODO: Update below function when we have StateMachine and Runner working
     def run(self, runner: RaspRunner, sm: RaspStateMachine) -> Tuple[Any, str]:
-        runner.start_process()
-        while True:
-            state: str = sm.check_for_change()
-            candidate: Any = self.choose_candidate(state)
-            candidate = self.fuzz(candidate)
-            result, outcome = runner.run(candidate)
-            if outcome == "FAIL":
-                break
-        return result, outcome
+        pass
 
     def multiple_runs(self, runner: RaspRunner, sm: RaspStateMachine, run_count: int) -> List[Tuple[Any, str]]:
         return [self.run(runner, sm) for _ in range(run_count)]
