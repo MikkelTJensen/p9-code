@@ -71,7 +71,7 @@ class RaspFuzzer(Fuzzer):
         return result, outcome
 
     def multiple_runs(self, run_count: int) -> List[Tuple[Any, str]]:
-        results =  [self.run() for _ in range(run_count)]
+        results = [self.run() for _ in range(run_count)]
         # Filter results marked as "PASS"
         # TODO Better filter? Perhaps look at respones from runner
         return [result for result in results if result[1] == "FAIL" or result[1] == "UNRESOLVED"]
