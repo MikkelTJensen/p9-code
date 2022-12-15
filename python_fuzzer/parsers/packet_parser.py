@@ -37,23 +37,21 @@ class PacketParser(InputParser):
         for file in files:
             path = os.path.join(self.path, file)
             packet_list = rdpcap(path)
-            packet = None
 
             try:
                 if isinstance(packet_list, PacketList):
-                    packet = packet_list[0]
+                    for p in packet_list:
+                        try:
+                            if isinstance(p, Packet):
+                                seed.append(p)
+                            else:
+                                raise ValueError
+                        except ValueError as err:
+                            print(f"Loaded packet was not of type Packet: {err}")
                 else:
                     raise ValueError
             except ValueError as err:
                 print(f"Loaded packet list was not of type PacketList: {err}")
-
-            try:
-                if isinstance(packet, Packet):
-                    seed.append(packet)
-                else:
-                    raise ValueError
-            except ValueError as err:
-                print(f"Loaded packet was not of type Packet: {err}")
 
         if self.verbose:
             print("All locally stored packets have been parsed.")

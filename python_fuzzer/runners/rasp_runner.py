@@ -27,7 +27,7 @@ class RaspRunner(Runner):
 
         self.interface: str = "Software Loopback Interface 1"
         self.executable_path: str = path
-        self.verbose: bool = verbose
+        self.verbose: bool = True
 
     def run(self, packet: Packet) -> Tuple[Any, str]:
         result, outcome = self.send_packet(packet)
@@ -47,8 +47,8 @@ class RaspRunner(Runner):
             if len(answer) > 0:
                 if self.verbose:
                     print("Answer received.")
-                    # for query in answer:
-                    #    print(query)
+                    for query in answer:
+                        print(query)
                 return answer, self.PASS
             elif len(unanswered) > 0:
                 print("Unresolved attempt at sending packets - no answer received from server")
