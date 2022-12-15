@@ -46,7 +46,14 @@ class RaspFuzzer(Fuzzer):
 
     def choose_candidate(self) -> Any:
         # TODO: Choose seed based on the state of the RASP Protocol
-        return self.seed[0]
+        if len(self.seed) > 0:
+            candidate = self.seed.pop()
+            self.population.append(candidate)
+            return candidate
+        else:
+            index = random.randint(0, len(self.population)-1)
+            candidate = self.population[index]
+            return candidate
 
     # TODO: Update below function when we have StateMachine and Runner working
     def run(self, runner: RaspRunner, sm: RaspStateMachine) -> Tuple[Any, str]:
