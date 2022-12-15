@@ -26,7 +26,7 @@ class PacketMutator(Mutator):
         return inp
 
     def add_to_byte_mutator(self, inp: Any) -> Any:
-        pos = random.randint(0, len(inp[Raw].load))
+        pos = random.randint(0, len(inp[Raw].load) - 1)
         c = inp[Raw].load[pos]
         c += random.randint(1, 36)
 
@@ -35,7 +35,7 @@ class PacketMutator(Mutator):
         return inp
 
     def remove_from_byte_mutator(self, inp: Any) -> Any:
-        pos = random.randint(0, len(inp[Raw].load))
+        pos = random.randint(0, len(inp[Raw].load) - 1)
         c = inp[Raw].load[pos]
         c -= random.randint(1, 36)
 
