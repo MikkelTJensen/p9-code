@@ -8,11 +8,7 @@ from .mutator import Mutator
 class PacketMutator(Mutator):
     def __init__(self) -> None:
         # List mutator functions here
-        self.mutators: List[Callable[[Any], Any]] = [self.remove_from_byte_mutator]
-
-    # TODO: Implement actual mutators - this is just placeholder code
-    def change_nothing_mutator(self, inp: Any) -> Any:
-        return inp
+        self.mutators: List[Callable[[Any], Any]] = [self.flip_bit_mutator, self.add_to_byte_mutator, self.remove_from_byte_mutator]
 
     def mutate(self, inp: Any) -> Any:
         mutator: Callable[[Any], Any] = random.choice(self.mutators)
@@ -20,8 +16,6 @@ class PacketMutator(Mutator):
 
     #string methods of this
     def flip_bit_mutator(self, inp: Any) -> Any:
-        if inp == "":
-            return inp
 
         pos = random.randint(0, len(inp[Raw].load) - 1)
         c = chr(inp[Raw].load[pos])
@@ -30,13 +24,9 @@ class PacketMutator(Mutator):
 
         inp[Raw].load = inp[Raw].load[:pos] + str.encode(new_c) + inp[Raw].load[pos + 1:]
 
-        print(inp[Raw].load)
-
         return inp
 
     def add_to_byte_mutator(self, inp: Any) -> Any:
-
-        print(inp[Raw].load)
 
         pos = random.randint(0, len(inp[Raw].load))
         c = inp[Raw].load[pos]
@@ -44,20 +34,16 @@ class PacketMutator(Mutator):
 
         inp[Raw].load = inp[Raw].load[:pos] + str.encode(chr(c)) + inp[Raw].load[pos + 1:]
 
-        print(inp[Raw].load)
 
         return inp
 
     def remove_from_byte_mutator(self, inp: Any) -> Any:
-        print(inp[Raw].load)
 
         pos = random.randint(0, len(inp[Raw].load))
         c = inp[Raw].load[pos]
         c -= random.randint(1, 36)
 
         inp[Raw].load = inp[Raw].load[:pos] + str.encode(chr(c)) + inp[Raw].load[pos + 1:]
-
-        print(inp[Raw].load)
 
         return inp
 
