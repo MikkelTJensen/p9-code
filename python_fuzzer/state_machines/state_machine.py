@@ -1,13 +1,14 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class StateMachine(ABC):
     @abstractmethod
-    def get_state(self) -> str:
+    def notify_of_packet(self, inp: Any) -> None:
         pass
 
     @abstractmethod
-    def set_state(self) -> None:
+    def get_state(self) -> str:
         pass
 
     @abstractmethod
