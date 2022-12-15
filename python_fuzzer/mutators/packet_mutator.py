@@ -1,6 +1,6 @@
 import random
 from typing import Any, List, Callable
-from scapy.packet import Packet
+from scapy.packet import Packet, Raw
 
 from .mutator import Mutator
 
