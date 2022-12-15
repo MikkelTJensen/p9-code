@@ -31,6 +31,7 @@ class RaspRunner(Runner):
 
     def run(self, packet: Packet) -> Tuple[Any, str]:
         result, outcome = self.send_packet(packet)
+        # TODO unpack results/queries here and return a better result variable
         return result, outcome
 
     def send_packet(self, p: Packet) -> Tuple[Any, str]:
