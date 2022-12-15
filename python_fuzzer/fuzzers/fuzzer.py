@@ -1,9 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
-from python_fuzzer.runners.runner import Runner
-from python_fuzzer.loggers.logger import Logger
-
 
 class Fuzzer(ABC):
     @abstractmethod
