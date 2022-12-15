@@ -3,11 +3,9 @@ from subprocess import run
 from os import getcwd
 from os.path import join
 
-import scapy.packet
 from scapy import sendrecv
 from scapy.packet import Packet
 from scapy.all import rdpcap
-from scapy import *
 
 if __name__ == "__main__":
     from runner import Runner
@@ -20,7 +18,7 @@ from loggers import SimpleLogger
 
 
 class RaspRunner(Runner):
-    def __init__(self, log: SimpleLogger, path: str) -> None:
+    def __init__(self, log: SimpleLogger, path: str,verbose: bool) -> None:
         # TODO: make a function which can send a scapy packet and replace it with "None" below
         function: Callable[..., Any] = lambda x: x
         self.PASS: str = 'PASS'
@@ -28,22 +26,20 @@ class RaspRunner(Runner):
         self.UNRESOLVED: str = 'UNRESOLVED'
         self.logger = log
         self.path = path
+        self.verbose = verbose
 
     def run(self, func_inp: Any) -> Tuple[Any, str]:
         result = self.send_packet(func_inp)
         return (func_inp, result)
 
-    def send_packet(self, p: Packet) -> None:
-        answer, unanswered = sendrecv.sr(p, timeout= 20)
+    def send_packet(self, p: Packet) -> str:
+        answer, unanswered = sendrecv.srp(p, iface="Software Loopback Interface 1", timeout=20)
         if len(answer) > 0:
-            print(answer[0])
-            print(answer[1])
+            if self.verbose:
+                for query in answer:
+                    print(query)
             return self.PASS
         elif len(unanswered) > 0:
-            print(unanswered[0])
-            print(unanswered[1])
-            return self.FAIL
-        else:
             return self.UNRESOLVED
 
     def start_process(self):
@@ -63,8 +59,8 @@ if __name__ == '__main__':
     cwd_path = getcwd()
     # Get path to the folder of the ClientExample
     process_path: str = join(cwd_path, "..", "executables", "ClientExample")
-    logger: SimpleLogger = SimpleLogger(cwd_path)
-    runner: RaspRunner = RaspRunner(logger, process_path)
+    logger: SimpleLogger = SimpleLogger(cwd_path, False, False)
+    runner: RaspRunner = RaspRunner(logger, process_path, True)
 
     # Test sending Post packates
     pcap_path: str = join(cwd_path, "..", "packets", "post_request_respond.pcapng")
