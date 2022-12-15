@@ -63,11 +63,11 @@ class RaspListener(Listener):
         if packet.haslayer(Raw):
             load = str(packet[Raw].load)
             if "CreateSequence<" in load or "SubmitInvoiceRequest" in load:
-                if self.logOptional:
-                    self.logger.logTraffic(packet)
+                if self.logger.log_optional:
+                    self.logger.log_traffic(packet)
                 self.sm.notify_of_packet(packet)
                 self.packet_store_counter += 1
-                packet_path = os.path.join(self.packet_path, f"test{self.packet_store_counter}.cap")
+                packet_path = os.path.join(self.packet_path, f"packet{self.packet_store_counter}.cap")
                 wrpcap(packet_path, packet)
 
 
