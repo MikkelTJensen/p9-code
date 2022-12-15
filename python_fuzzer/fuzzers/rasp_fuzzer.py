@@ -32,8 +32,8 @@ class RaspFuzzer(Fuzzer):
 
         self.verbose: bool = verbose
 
-        self.runner = runner
-        self.state_machine = sm
+        self.runner: RaspRunner = runner
+        self.state_machine: RaspStateMachine = sm
         self.logger: SimpleLogger = logger
         self.mutator: PacketMutator = mutator
         self.mutation_count: int = mutation_count
