@@ -24,16 +24,16 @@ class RaspRunner(Runner):
         self.PASS: str = 'PASS'
         self.FAIL: str = 'FAIL'
         self.UNRESOLVED: str = 'UNRESOLVED'
-        self.logger = log
-        self.path = path
-        self.verbose = verbose
-
+        self.logger: SimpleLogger = log
+        self.path: str = path
+        self.verbose: bool = verbose
+        self.interface: str = "Software Loopback Interface 1"
     def run(self, func_inp: Any) -> Tuple[Any, str]:
         result = self.send_packet(func_inp)
         return (func_inp, result)
 
     def send_packet(self, p: Packet) -> str:
-        answer, unanswered = sendrecv.srp(p, iface="Software Loopback Interface 1", timeout=20)
+        answer, unanswered = sendrecv.srp(p, iface=self.interface, timeout=20)
         if len(answer) > 0:
             if self.verbose:
                 for query in answer:
@@ -47,7 +47,7 @@ class RaspRunner(Runner):
         process = run(["dk.gov.oiosi.samples.ClientExample.exe"],
                       shell=True,
                       cwd=self.path,
-                      timeout=20,
+                      timeout=30,
                       capture_output=True)
 
         if process.returncode != 0:
