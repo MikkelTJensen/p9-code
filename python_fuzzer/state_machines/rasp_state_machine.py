@@ -7,7 +7,7 @@ class RaspStateMachine(StateMachine):
     def __init__(self, verbose: bool) -> None:
         self.verbose: bool = verbose
 
-    def notify_of_packet(self, inp: Packet) -> None:
+    def notify_of_packet(self, packet: Packet) -> None:
         # TODO: Implement
         pass
 
