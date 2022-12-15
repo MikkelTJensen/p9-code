@@ -44,8 +44,12 @@ def main(listen_for_traffic: bool, log_optional: bool, verbose: bool) -> None:
 
     # Initialize and run the fuzzer
     fuzz: RaspFuzzer = RaspFuzzer(seed, run, sm, mut, log, verbose, mutation_count=1)
-    result = fuzz.multiple_runs(20)
-    print(result)
+    results = fuzz.multiple_runs(20)
+    if len(results) > 0:
+        for result in results:
+            print(result)
+    else:
+        print("No crashes/errors occured during the fuzzing period.")
 
 
 if __name__ == '__main__':
