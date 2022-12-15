@@ -1,5 +1,6 @@
 from typing import Any, List, Tuple
 from scapy.packet import Packet
+import random
 
 if __name__ == "__main__":
     from fuzzer import Fuzzer
@@ -20,7 +21,7 @@ class RaspFuzzer(Fuzzer):
                  mutator: PacketMutator,
                  logger: SimpleLogger,
                  verbose: bool,
-                 mutation_count) -> None:
+                 mutation_count: int) -> None:
 
         self.seed: List[Packet] = seed
         self.seed_length: int = len(self.seed)
@@ -31,14 +32,15 @@ class RaspFuzzer(Fuzzer):
 
         self.logger: SimpleLogger = logger
         self.mutator: PacketMutator = mutator
-        self.mutation_count = mutation_count
+        self.mutation_count: int = mutation_count
 
     def reset(self) -> None:
         self.population = []
         self.seed_index = 0
 
     def fuzz(self, packet: Packet) -> Packet:
-        for _ in range(self.mutation_count):
+        random_range = random.randint(1, self.mutation_count)
+        for _ in range(random_range):
             packet = self.mutator.mutate(packet)
         return packet
 
