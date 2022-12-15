@@ -32,7 +32,7 @@ class PacketMutator(Mutator):
 
     def add_to_byte_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
-        c: chr = chr(data[pos])
+        c: int = data[pos]
         c += random.randint(1, 36)
 
         data = data[:pos] + str.encode(chr(c)) + data[pos + 1:]
@@ -41,10 +41,9 @@ class PacketMutator(Mutator):
 
     def remove_from_byte_mutator(self, data: bytes) -> bytes:
         pos: int = random.randint(0, len(data) - 1)
-        c: chr = chr(data[pos])
+        c: int = data[pos]
         c -= random.randint(1, 36)
 
         data = data[:pos] + str.encode(chr(c)) + data[pos + 1:]
 
         return data
-
