@@ -51,7 +51,8 @@ class RaspFuzzer(Fuzzer):
     def choose_candidate(self) -> Any:
         # TODO: Choose seed based on the state of the RASP Protocol
         if len(self.seed) > 0:
-            candidate: Packet = self.seed.pop()
+            candidate: Packet = self.seed[self.seed_index]
+            self.seed_index += 1
             self.population.append(candidate)
             return candidate
         else:
