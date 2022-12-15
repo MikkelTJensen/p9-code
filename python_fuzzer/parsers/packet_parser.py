@@ -22,6 +22,10 @@ class PacketParser(InputParser):
         Load packets intercepted from RASP protocol into a data structure that can be handled.
         :return: The seed. In this case the packets sent between RASP sender and receiver.
         """
+        if self.verbose:
+            print("========== PARSER ==========")
+            print("Parsing locally stored packets...")
+
         seed = []
 
         # Find all files in folder
@@ -50,6 +54,9 @@ class PacketParser(InputParser):
                     raise ValueError
             except ValueError as err:
                 print(f"Loaded packet was not of type Packet: {err}")
+
+        if self.verbose:
+            print("All locally stored packets have been parsed.")
 
         return seed
 

@@ -50,7 +50,7 @@ class RaspFuzzer(Fuzzer):
 
     def choose_candidate(self) -> Packet:
         # TODO: Choose seed based on the state of the RASP Protocol
-        if len(self.seed) > 0:
+        if len(self.seed) > self.seed_index:
             candidate: Packet = self.seed[self.seed_index]
             self.seed_index += 1
             self.population.append(candidate)
@@ -71,8 +71,8 @@ class RaspFuzzer(Fuzzer):
         return result, outcome
 
     def multiple_runs(self, run_count: int) -> List[Tuple[Any, str]]:
-        results = [self.run() for _ in range(run_count)]
+        return [self.run() for _ in range(run_count)]
         # Filter results marked as "PASS"
         # TODO Better filter? Perhaps look at respones from runner
-        return [result for result in results if result[1] == "FAIL" or result[1] == "UNRESOLVED"]
+        # return [result for result in results if result[1] == "FAIL" or result[1] == "UNRESOLVED"]
 

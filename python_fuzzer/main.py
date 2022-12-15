@@ -44,7 +44,7 @@ def main(listen_for_traffic: bool, log_optional: bool, verbose: bool) -> None:
 
     # Initialize and run the fuzzer
     fuzz: RaspFuzzer = RaspFuzzer(seed, run, sm, mut, log, verbose, mutation_count=1)
-    result = fuzz.multiple_runs(run_count=len(seed))
+    result = fuzz.multiple_runs(20)
     print(result)
 
 

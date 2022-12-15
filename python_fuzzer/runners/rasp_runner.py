@@ -35,12 +35,19 @@ class RaspRunner(Runner):
 
     def send_packet(self, p: Packet) -> Tuple[Any, str]:
         try:
-            answer, unanswered = sendrecv.srp(p, iface=self.interface, timeout=20)
+            verbose = 0
+            if self.verbose:
+                print("========== Runner ==========")
+                print("Attempting to send packet...")
+                verbose = 1
+
+            answer, unanswered = sendrecv.srp(p, iface=self.interface, verbose=verbose, timeout=20)
 
             if len(answer) > 0:
                 if self.verbose:
-                    for query in answer:
-                        print(query)
+                    print("Answer received.")
+                    # for query in answer:
+                    #    print(query)
                 return answer, self.PASS
             elif len(unanswered) > 0:
                 print("Unresolved attempt at sending packets - no answer received from server")

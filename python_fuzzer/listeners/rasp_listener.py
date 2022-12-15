@@ -33,6 +33,7 @@ class RaspListener(Listener):
 
     def run(self) -> None:
         if self.verbose:
+            print("========== LISTENER ==========")
             print("Initializing threads...")
 
         listener_thread = Thread(target=self.sniff)
@@ -40,10 +41,14 @@ class RaspListener(Listener):
         listener_thread.start()
         runner_thread.start()
 
+        if self.verbose:
+            print("Runner and listener initialized, waiting for termination...")
+
         runner_thread.join()
         listener_thread.join()
+
         if self.verbose:
-            print("Both threads have terminated...")
+            print("Both threads have terminated.")
 
     def sniff(self) -> None:
         if self.verbose:
@@ -54,7 +59,7 @@ class RaspListener(Listener):
               count=self.max_packet_count)
 
         if self.verbose:
-            print("Stopped sniffing...")
+            print("Stopped sniffing.")
 
     def packet_handler(self, packet: Packet) -> None:
         if self.verbose:
