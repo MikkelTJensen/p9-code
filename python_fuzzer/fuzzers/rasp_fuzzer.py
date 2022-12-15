@@ -26,7 +26,7 @@ class RaspFuzzer(Fuzzer):
         self.seed: List[Packet] = seed
         self.seed_length: int = len(self.seed)
         self.seed_index: int = 0
-        self.population: List[Any] = []
+        self.population: List[Packet] = []
 
         self.verbose: bool = verbose
 
@@ -47,12 +47,12 @@ class RaspFuzzer(Fuzzer):
     def choose_candidate(self) -> Any:
         # TODO: Choose seed based on the state of the RASP Protocol
         if len(self.seed) > 0:
-            candidate = self.seed.pop()
+            candidate: Packet = self.seed.pop()
             self.population.append(candidate)
             return candidate
         else:
-            index = random.randint(0, len(self.population)-1)
-            candidate = self.population[index]
+            index: int = random.randint(0, len(self.population)-1)
+            candidate: Packet = self.population[index]
             return candidate
 
     # TODO: Update below function when we have StateMachine and Runner working
@@ -60,5 +60,6 @@ class RaspFuzzer(Fuzzer):
         pass
 
     def multiple_runs(self, runner: RaspRunner, sm: RaspStateMachine, run_count: int) -> List[Tuple[Any, str]]:
+        # TODO Filter so only crashes are returned if we want to run millions of iterations?
         return [self.run(runner, sm) for _ in range(run_count)]
 

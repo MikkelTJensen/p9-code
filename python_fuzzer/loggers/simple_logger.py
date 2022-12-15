@@ -10,7 +10,7 @@ class SimpleLogger(Logger):
         self.log_optional: bool = log_optional
         self.verbose: bool = verbose
 
-    def log_traffic(self, inp: Packet) -> None:
+    def log_traffic(self, packet: Packet) -> None:
         # TODO: Implement
         pass
 
