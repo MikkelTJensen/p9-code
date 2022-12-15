@@ -48,7 +48,7 @@ class RaspFuzzer(Fuzzer):
             packet = self.mutator.mutate(packet)
         return packet
 
-    def choose_candidate(self) -> Any:
+    def choose_candidate(self) -> Packet:
         # TODO: Choose seed based on the state of the RASP Protocol
         if len(self.seed) > 0:
             candidate: Packet = self.seed[self.seed_index]
@@ -60,11 +60,19 @@ class RaspFuzzer(Fuzzer):
             candidate: Packet = self.population[index]
             return candidate
 
-    # TODO: Update below function when we have StateMachine and Runner working
+    # TODO: Update below function when we have StateMachine?
+    # TODO: Add some logging perhaps - at least evaluate output of runner
     def run(self) -> Tuple[Any, str]:
-        pass
+        packet: Packet = self.choose_candidate()
+        packet = self.fuzz(packet)
+        result, outcome = self.runner.run(packet)
+        if outcome == "FAIL":
+            self.population.append(packet)
+        return result, outcome
 
     def multiple_runs(self, run_count: int) -> List[Tuple[Any, str]]:
-        # TODO Filter so only crashes are returned if we want to run millions of iterations?
-        return [self.run() for _ in range(run_count)]
+        results = [self.run() for _ in range(run_count)]
+        # Filter results marked as "PASS"
+        # TODO Better filter? Perhaps look at respones from runner
+        return [result for result in results if result[1] == "FAIL" or result[1] == "UNRESOLVED"]
 
