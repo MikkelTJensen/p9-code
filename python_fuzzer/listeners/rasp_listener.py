@@ -11,7 +11,6 @@ from runners import RaspRunner
 
 from scapy.all import *
 from threading import Thread
-from sys import platform
 
 
 class RaspListener(Listener):
@@ -28,14 +27,7 @@ class RaspListener(Listener):
         self.packet_path: str = packet_path
         self.verbose: bool = verbose
 
-        if platform == "linux" or platform == "linux2":
-            self.platform = "wlp2s0"
-        elif platform == "darwin":
-            # TODO update
-            self.platform = "wlp2s0"
-        elif platform == "win32":
-            self.platform = "Software Loopback Interface 1"
-
+        self.interface = "Software Loopback Interface 1"
         self.max_packet_count = 20
         self.packet_store_counter = 0
 
@@ -57,9 +49,8 @@ class RaspListener(Listener):
         if self.verbose:
             print("Sniffing...")
 
-        pkts = sniff(iface=self.platform,
+        pkts = sniff(iface=self.interface,
                      prn=self.packet_handler,
-                     #filter="tcp and port 80",
                      count=self.max_packet_count)
 
         if self.verbose:
@@ -70,10 +61,12 @@ class RaspListener(Listener):
             print(packet.summary())
 
         if packet.haslayer(Raw):
-            # TODO better condition above?
-            self.packet_store_counter += 1
-            packet_path = os.path.join(self.packet_path, f"test{self.packet_store_counter}.cap")
-            wrpcap(packet_path, packet)
+            load = str(packet[Raw].load)
+            if "CreateSequence<" in load or "SubmitInvoiceRequest" in load:
+                print(packet.show())
+                self.packet_store_counter += 1
+                packet_path = os.path.join(self.packet_path, f"test{self.packet_store_counter}.cap")
+                wrpcap(packet_path, packet)
 
 
 if __name__ == '__main__':
