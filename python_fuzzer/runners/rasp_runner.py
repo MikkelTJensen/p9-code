@@ -37,19 +37,14 @@ class RaspRunner(Runner):
         return result, outcome
 
     def send_packet(self, p: Packet) -> Tuple[Any, str]:
+        if self.verbose:
+            print("========== Runner ==========")
+            print("Attempting to send packet...")
         try:
-            verbose = 0
-            if self.verbose:
-                print("========== Runner ==========")
-                print("Attempting to send packet...")
-                verbose = 1
-
-            s = socket.socket()
-            s.connect(("127.0.0.1", 80))
-            ss = StreamSocket(s, Raw)
-            answer = ss.sr1(Raw(p[Raw].load))
-
-            # answer, unanswered = sendrecv.srp(p, iface=self.interface, verbose=verbose, timeout=20)
+            with socket.socket() as s:
+                s.connect(("127.0.0.1", 80))
+                ss = StreamSocket(s, Raw)
+                answer = ss.sr1(p[Raw])
 
             if len(answer) > 0:
                 if self.verbose:
