@@ -1,11 +1,13 @@
-from typing import Any, Tuple, Callable
+from typing import Any, Tuple
 from subprocess import run
 from os import getcwd
 from os.path import join
+import socket
 
 from scapy import sendrecv
-from scapy.packet import Packet
+from scapy.packet import Packet, Raw
 from scapy.all import rdpcap
+from scapy.supersocket import StreamSocket
 
 if __name__ == "__main__":
     from runner import Runner
@@ -42,7 +44,14 @@ class RaspRunner(Runner):
                 print("Attempting to send packet...")
                 verbose = 1
 
-            answer, unanswered = sendrecv.srp(p, iface=self.interface, verbose=verbose, timeout=20)
+            s = socket.socket()
+            s.connect(("127.0.0.1", 80))
+            ss = StreamSocket(s, Raw)
+            answer = ss.sr1(Raw(p[Raw].load))
+
+            print(answer)
+
+            # answer, unanswered = sendrecv.srp(p, iface=self.interface, verbose=verbose, timeout=20)
 
             if len(answer) > 0:
                 if self.verbose:

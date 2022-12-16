@@ -72,4 +72,5 @@ if __name__ == '__main__':
 
     args = p.parse_args()
 
-    main(args.listen, args.log, args.verbose)
+    main(False, False, True)
+    # main(args.listen, args.log, args.verbose)
