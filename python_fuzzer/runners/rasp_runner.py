@@ -18,7 +18,7 @@ from loggers import SimpleLogger
 
 
 class RaspRunner(Runner):
-    def __init__(self, log: SimpleLogger, path: str,verbose: bool) -> None:
+    def __init__(self, log: SimpleLogger, path: str, verbose: bool) -> None:
         self.PASS: str = 'PASS'
         self.FAIL: str = 'FAIL'
         self.UNRESOLVED: str = 'UNRESOLVED'
@@ -27,7 +27,7 @@ class RaspRunner(Runner):
 
         self.interface: str = "Software Loopback Interface 1"
         self.executable_path: str = path
-        self.verbose: bool = True
+        self.verbose: bool = verbose
 
     def run(self, packet: Packet) -> Tuple[Any, str]:
         result, outcome = self.send_packet(packet)
