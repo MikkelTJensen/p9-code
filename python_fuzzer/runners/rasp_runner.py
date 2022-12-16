@@ -41,12 +41,14 @@ class RaspRunner(Runner):
             print("========== Runner ==========")
             print("Attempting to send packet...")
         try:
+            answer = None
+
             with socket.socket() as s:
                 s.connect(("127.0.0.1", 80))
                 ss = StreamSocket(s, Raw)
                 answer = ss.sr1(p[Raw])
 
-            if len(answer) > 0:
+            if answer:
                 if self.verbose:
                     print("Answer received.")
                     for query in answer:
