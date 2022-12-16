@@ -49,8 +49,6 @@ class RaspRunner(Runner):
             ss = StreamSocket(s, Raw)
             answer = ss.sr1(Raw(p[Raw].load))
 
-            print(answer)
-
             # answer, unanswered = sendrecv.srp(p, iface=self.interface, verbose=verbose, timeout=20)
 
             if len(answer) > 0:
@@ -59,11 +57,13 @@ class RaspRunner(Runner):
                     for query in answer:
                         print(query)
                 return answer, self.PASS
-            elif len(unanswered) > 0:
-                print("Unresolved attempt at sending packets - no answer received from server")
-                return unanswered, self.UNRESOLVED
+            else:
+                if self.verbose:
+                    print("Unresolved attempt at sending packets - no answer received from server")
+                return None, self.UNRESOLVED
         except:
-            print("Failed attempt at sending packets")
+            if self.verbose:
+                print("Failed attempt at sending packets")
             return None, self.FAIL
 
     def start_process(self) -> None:
