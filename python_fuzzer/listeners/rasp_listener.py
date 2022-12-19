@@ -67,7 +67,7 @@ class RaspListener(Listener):
 
         if packet.haslayer(Raw):
             load = str(packet[Raw].load)
-            if "CreateSequence<" in load or "SubmitInvoiceRequest" in load:
+            if "CreateSequence<" in load or "SubmitInvoiceRequest" in load or "POST" in load:
                 if self.logger.log_optional:
                     self.logger.log_traffic(packet)
 

@@ -62,16 +62,16 @@ class RaspFuzzer(Fuzzer):
 
     # TODO: Update below function when we have StateMachine?
     # TODO: Add some logging perhaps - at least evaluate output of runner
-    def run(self) -> Tuple[Any, str]:
+    def run(self, streamsocket) -> Tuple[Any, str]:
         packet: Packet = self.choose_candidate()
         # packet = self.fuzz(packet)
-        result, outcome = self.runner.run(packet)
+        result, outcome = self.runner.run(packet, streamsocket)
         if outcome == "FAIL":
             self.population.append(packet)
         return result, outcome
 
-    def multiple_runs(self, run_count: int) -> List[Tuple[Any, str]]:
-        results = [self.run() for _ in range(run_count)]
+    def multiple_runs(self, run_count: int, streamsocket) -> List[Tuple[Any, str]]:
+        results = [self.run(streamsocket) for _ in range(run_count)]
         # Filter results marked as "PASS"
         # TODO Better filter? Perhaps look at respones from runner
         return [result for result in results if result[1] != "PASS"]

@@ -6,6 +6,12 @@ from fuzzers import RaspFuzzer
 from runners import RaspRunner
 from mutators import PacketMutator
 
+import socket
+from scapy import sendrecv
+from scapy.packet import Packet, Raw
+from scapy.all import rdpcap
+from scapy.supersocket import StreamSocket
+
 import os
 import argparse
 from typing import List
@@ -42,15 +48,20 @@ def main(listen_for_traffic: bool, log_optional: bool, verbose: bool) -> None:
     # Initialize the mutator
     mut: PacketMutator = PacketMutator(verbose)
 
+    s = socket.socket()
+    s.connect(("127.0.0.1", 80))
+    ss = StreamSocket(s, Raw)
+
     # Initialize and run the fuzzer
     fuzz: RaspFuzzer = RaspFuzzer(seed, run, sm, mut, log, verbose, mutation_count=1)
-    results = fuzz.multiple_runs(1)
+    results = fuzz.multiple_runs(5, ss)
     if len(results) > 0:
         for result in results:
             print(result)
     else:
         print("No crashes/errors occured during the fuzzing period.")
 
+    s.shutdown(0)
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description="Arguments for network protocol fuzzing harness")
@@ -72,5 +83,5 @@ if __name__ == '__main__':
 
     args = p.parse_args()
 
-    main(False, False, True)
+    main(True, False, True)
     # main(args.listen, args.log, args.verbose)

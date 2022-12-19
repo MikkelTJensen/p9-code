@@ -17,6 +17,7 @@ class PacketMutator(Mutator):
         data: bytes = packet[Raw].load
         mutator: Callable[[Any], Any] = random.choice(self.mutators)
         packet[Raw].load = mutator(data)
+        print("i mutate")
         return packet
 
     #string methods of this
