@@ -7,9 +7,13 @@ import socket
 
 from scapy import sendrecv
 from scapy.packet import Packet, Raw
-from scapy.all import rdpcap
+from scapy.all import rdpcap, sr1
 from scapy.supersocket import StreamSocket
-from scapy.layers.http import http_request
+from scapy.layers.http import HTTP, HTTPRequest, http_request
+from scapy.interfaces import ifaces
+from scapy.layers.ipsec import IP, IPv6
+from scapy.layers.inet import TCP, TCP_client, Ether
+
 
 if __name__ == "__main__":
     from runner import Runner
@@ -19,6 +23,7 @@ else:
 import sys
 sys.path.append("..")
 from loggers import SimpleLogger
+from parsers import PacketParser
 
 
 class RaspRunner(Runner):
@@ -43,8 +48,9 @@ class RaspRunner(Runner):
             print("========== Runner ==========")
             print("Attempting to send packet...")
         try:
+            ip = IP(dst="127.0.0.1")
+            tcp = TCP()
             answer = None
-
             load = str(p[Raw].load)
             if "POST" in load:
                 load = load.split("POST")
@@ -117,11 +123,42 @@ if __name__ == '__main__':
     logger: SimpleLogger = SimpleLogger(cwd_path, verbose=False, log_optional=False)
     runner: RaspRunner = RaspRunner(logger, process_path, verbose=True)
 
-    packet_path = join(cwd_path, "..", "packets")
-    for filename in listdir(packet_path):
-        f = join(packet_path, filename)
-        pcap = rdpcap(f)
-        runner.send_packet(pcap)
+    # Needs to listen one time
+    #s = socket.socket()
+    #s.connect(("127.0.0.1", 80))
+    #ss = StreamSocket(s, Raw)
+
+    path = join(cwd_path, "..", "packets")
+    parser: PacketParser = PacketParser(path, False)
+    seed = parser.load_seed()
+
+    seq = 1
+    ack = 1
+    ip = IP()
+    tcp = TCP(dport=80, flags="PA", seq=seq, ack=ack)
+
+    load = str(seed[0][Raw].load)
+    if "POST" in load:
+        load = load.split("POST")
+        new_load = load[1]
+        new_load = new_load[:-1]
+        new_load = "POST" + new_load
+        new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
+        new_load = new_load.decode()
+    # TODO: calc content length lmao comments :)
+    http = http_request(host="localhost", Pragma=None, port=80, Method='POST', Content_Length="8797", path="/RaspNet/TestService.svc", Content_Type="application/soap+xml; charset=utf-8", Expect="100-continue")
+    #builtpacket = (Ether()/ip/tcp/http/new_load).build()
+    #sr1(builtpacket)
+
+    # path = join(cwd_path, "..", "packets")
+    # parser: PacketParser = PacketParser(path, False)
+    # seed = parser.load_seed()
+
+    # for packet in seed:
+    #     runner.send_packet(packet, ss)
+
+    # s.shutdown(0)
+
     # Test sending Post packets
     # pcap_path: str = join(cwd_path, "..", "packets", "packet1.pcap")
     # pcap = rdpcap(pcap_path)
