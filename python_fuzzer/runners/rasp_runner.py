@@ -93,10 +93,11 @@ class RaspRunner(Runner):
                                  }
             
             boilerplate_packet=HTTP()/HTTPRequest(**boilerplate_headers)
-            streamsocket.sr1(boilerplate_packet)
+            streamsocket.sr1(boilerplate_packet, timeout=1)
 
             # TODO: Send CreateSequence POST Request
             # expect: 100-continue (answer HTTP 200 ok)
+            # TODO: EMIL PUT YOUR SCAPY 2.5 RIGHT HERE WOW:
             load = str(p[Raw].load)
             if "<s:Envelope" in load:
                 load = load.split("<s:Envelope")
