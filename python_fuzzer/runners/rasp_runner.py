@@ -13,6 +13,7 @@ from scapy.layers.http import HTTP, HTTPRequest, http_request
 from scapy.interfaces import ifaces
 from scapy.layers.ipsec import IP, IPv6
 from scapy.layers.inet import TCP, TCP_client, Ether
+from scapy.layers.http import _HTTPHeaderField, HTTP
 
 
 if __name__ == "__main__":
@@ -82,22 +83,36 @@ class RaspRunner(Runner):
 
             # psh,ack HTTP POST info before sending CreateSequence so the server is primed for a POST request
             # TODO: Calculate content length of CreateSequence SOAP Message
-            http_request(host="localhost", 
-                         Pragma=None, 
-                         port=80, 
-                         Method='POST', 
-                         Content_Length="8797", 
-                         path="/RaspNet/TestService.svc", 
-                         Content_Type="application/soap+xml; charset=utf-8", 
-                         Expect="100-continue")
+            boilerplate_headers = {"Method": b'POST',
+                                  "Path": b'/RaspNet/TestService.svc',
+                                  "Http_Version": b'HTTP/1.1',
+                                  "Content_Type": b'application/soap+xml; charset=utf-8',
+                                  "Host": b'localhost',
+                                  "Content_Length": b'8797',
+                                  "Expect": b'100-continue'
+                                 }
+            
+            boilerplate_packet=HTTP()/HTTPRequest(**boilerplate_headers)
+            streamsocket.sr1(boilerplate_packet)
 
             # TODO: Send CreateSequence POST Request
             # expect: 100-continue (answer HTTP 200 ok)
+            load = str(p[Raw].load)
+            if "<s:Envelope" in load:
+                load = load.split("<s:Envelope")
+                new_load = load[1]
+                new_load = new_load[:-1]
+                new_load = "<s:Envelope" + new_load
+                new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
+                new_load = new_load.decode()
+                p[Raw].load = new_load
+
+            streamsocket.sr1(HTTP()/p)
             
             # TODO: psh,ack HTTP POST info before sending SubmitInvoiceRequest so the server is primed for a POST request
             
             # TODO: Send SubmitInvoiceRequest POST Request
-            # expect: 100-continue (answer ? client/server is not behaving properly)
+            # expect: 100-continue (answer HTTP 200 ok? client/server is not behaving properly)
 
             if answer:
                 if self.verbose:

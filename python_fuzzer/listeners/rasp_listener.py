@@ -28,6 +28,7 @@ class RaspListener(Listener):
         self.verbose: bool = verbose
 
         self.interface = "Software Loopback Interface 1"
+        self.filter = "tcp and port 80"
         self.max_packet_count = 20
         self.packet_store_counter = 0
 
@@ -56,6 +57,7 @@ class RaspListener(Listener):
 
         sniff(iface=self.interface,
               prn=self.packet_handler,
+              filter=self.filter,
               count=self.max_packet_count)
 
         if self.verbose:

@@ -49,7 +49,7 @@ def main(listen_for_traffic: bool, log_optional: bool, verbose: bool) -> None:
     mut: PacketMutator = PacketMutator(verbose)
 
     s = socket.socket()
-    s.connect(("127.0.0.1", 80))
+    s.connect(("localhost", 80))
     ss = StreamSocket(s, Raw)
 
     # Initialize and run the fuzzer
