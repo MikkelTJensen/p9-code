@@ -48,37 +48,56 @@ class RaspRunner(Runner):
             print("========== Runner ==========")
             print("Attempting to send packet...")
         try:
-            ip = IP(dst="127.0.0.1")
-            tcp = TCP()
             answer = None
-            load = str(p[Raw].load)
-            if "POST" in load:
-                load = load.split("POST")
-                new_load = load[1]
-                new_load = new_load[:-1]
-                new_load = "POST" + new_load
-                print("before dawn ", new_load)
-                new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
-                print("encoded ", new_load)
-                new_load = new_load.decode()
-                print("decoded ", new_load)
-                p[Raw].load = new_load
-                print(p.payload.layers())
-                answer = streamsocket.sr1(p[Raw])
+            #load = str(p[Raw].load)
+            #if "POST" in load:
+            #    load = load.split("POST")
+            #    new_load = load[1]
+            #    new_load = new_load[:-1]
+            #    new_load = "POST" + new_load
+            #    new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
+            #    new_load = new_load.decode()
+            #    p[Raw].load = new_load
+            #    answer = streamsocket.sr1(p[Raw])
 
-            if "<s:Envelope" in load:
-                load = load.split("<s:Envelope")
-                new_load = load[1]
-                new_load = new_load[:-1]
-                new_load = "<s:Envelope" + new_load
-                print("before dawn ", new_load)
-                new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
-                print("encoded ", new_load)
-                new_load = new_load.decode()
-                print("decoded ", new_load)
-                p[Raw].load = new_load
-                print(p.payload.layers())
-                answer = streamsocket.sr1(p[Raw])
+            #if "<s:Envelope" in load:
+            #    load = load.split("<s:Envelope")
+            #    new_load = load[1]
+            #    new_load = new_load[:-1]
+            #    new_load = "<s:Envelope" + new_load
+            #    new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
+            #    new_load = new_load.decode()
+            #    p[Raw].load = new_load
+            #    answer = streamsocket.sr1(p[Raw])
+
+            # extract HTTP POST info from psh,ack message 
+            #load = str(p[Raw].load)
+            #if "POST" in load:
+            #    load = load.split("POST")
+            #    new_load = load[1]
+            #    new_load = new_load[:-1]
+            #    new_load = "POST" + new_load
+            #    new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
+            #    new_load = new_load.decode()
+
+            # psh,ack HTTP POST info before sending CreateSequence so the server is primed for a POST request
+            # TODO: Calculate content length of CreateSequence SOAP Message
+            http_request(host="localhost", 
+                         Pragma=None, 
+                         port=80, 
+                         Method='POST', 
+                         Content_Length="8797", 
+                         path="/RaspNet/TestService.svc", 
+                         Content_Type="application/soap+xml; charset=utf-8", 
+                         Expect="100-continue")
+
+            # TODO: Send CreateSequence POST Request
+            # expect: 100-continue (answer HTTP 200 ok)
+            
+            # TODO: psh,ack HTTP POST info before sending SubmitInvoiceRequest so the server is primed for a POST request
+            
+            # TODO: Send SubmitInvoiceRequest POST Request
+            # expect: 100-continue (answer ? client/server is not behaving properly)
 
             if answer:
                 if self.verbose:
@@ -132,11 +151,9 @@ if __name__ == '__main__':
     parser: PacketParser = PacketParser(path, False)
     seed = parser.load_seed()
 
-    seq = 1
-    ack = 1
-    ip = IP()
-    tcp = TCP(dport=80, flags="PA", seq=seq, ack=ack)
+    #tcp = TCP(dport=80, flags="PA", seq=seq, ack=ack)
 
+    # extract HTTP POST info from psh,ack message 
     load = str(seed[0][Raw].load)
     if "POST" in load:
         load = load.split("POST")
@@ -146,9 +163,14 @@ if __name__ == '__main__':
         new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
         new_load = new_load.decode()
     # TODO: calc content length lmao comments :)
-    http = http_request(host="localhost", Pragma=None, port=80, Method='POST', Content_Length="8797", path="/RaspNet/TestService.svc", Content_Type="application/soap+xml; charset=utf-8", Expect="100-continue")
-    #builtpacket = (Ether()/ip/tcp/http/new_load).build()
-    #sr1(builtpacket)
+    http = http_request(host="localhost", 
+                        Pragma=None, 
+                        port=80, 
+                        Method='POST', 
+                        Content_Length="8797", 
+                        path="/RaspNet/TestService.svc", 
+                        Content_Type="application/soap+xml; charset=utf-8", 
+                        Expect="100-continue")
 
     # path = join(cwd_path, "..", "packets")
     # parser: PacketParser = PacketParser(path, False)
