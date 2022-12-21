@@ -48,8 +48,10 @@ namespace dk.gov.oiosi.samples.consoleClientExample {
             DocumentTypeConfigSearcher typeSearcher = new DocumentTypeConfigSearcher();
             DocumentTypeConfig docTypeConfig = typeSearcher.FindUniqueDocumentType(message.MessageXml);
 
-            // 1. Lookup the endpoint address and certificate using UDDI
-            UddiLookupResponse uddiResponse = this.Uddi(message, docTypeConfig);
+            // 1. Lookup the endpoint address and certificate using UDDI this.Uddi(message, docTypeConfig)
+            UddiLookupResponse uddiResponse = new UddiLookupResponse();
+            EndpointAddressHttp EndpointAddress = new EndpointAddressHttp(new Uri("http://localhost/RaspNet/TestService.svc"));
+            uddiResponse.EndpointAddress = EndpointAddress;
             
             // 2. Download the server certificate using LDAP
             //X509Certificate2 serverCert = this.Ldap(uddiResponse.CertificateSubjectSerialNumber);
