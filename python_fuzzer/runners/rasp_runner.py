@@ -13,7 +13,7 @@ from scapy.layers.http import HTTP, HTTPRequest, http_request
 from scapy.interfaces import ifaces
 from scapy.layers.ipsec import IP, IPv6
 from scapy.layers.inet import TCP, TCP_client, Ether
-from scapy.layers.http import _HTTPHeaderField, HTTP
+from scapy.layers.inet import Loopback
 
 
 if __name__ == "__main__":
@@ -97,11 +97,8 @@ class RaspRunner(Runner):
 
             # TODO: Send CreateSequence POST Request
             # expect: 100-continue (answer HTTP 200 ok)
-            # TODO: EMIL PUT YOUR SCAPY 2.5 RIGHT HERE WOW:
-            # bam=p[Raw]
-            # streamsocket.sr(bam, timeout=1)
 
-            load = str(p[Raw].load)
+            load = str(p[HTTP].load)
             if "<s:Envelope" in load:
                 load = load.split("<s:Envelope")
                 new_load = load[1]
@@ -109,10 +106,14 @@ class RaspRunner(Runner):
                 new_load = "<s:Envelope" + new_load
                 new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
                 new_load = new_load.decode()
-                p[Raw].load = new_load
+                # p[Raw].load = new_load
+                create_seq_packet = IP()/TCP(options=[])/new_load
+                streamsocket.sr1(create_seq_packet, timeout=1)
+                create_seq_packet.show()
+            # streamsocket.sr1(HTTP()/p)
+            # create_seq_packet
+            p.show()
 
-            streamsocket.sr1(HTTP()/p)
-            
             # TODO: psh,ack HTTP POST info before sending SubmitInvoiceRequest so the server is primed for a POST request
             
             # TODO: Send SubmitInvoiceRequest POST Request
