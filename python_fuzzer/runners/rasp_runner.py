@@ -13,7 +13,7 @@ from scapy.layers.http import HTTP, HTTPRequest, http_request
 from scapy.interfaces import ifaces
 from scapy.layers.ipsec import IP, IPv6
 from scapy.layers.inet import TCP, TCP_client, Ether
-from scapy.layers.http import _HTTPHeaderField, HTTP
+from scapy.layers.inet import Loopback
 
 
 if __name__ == "__main__":
@@ -84,35 +84,42 @@ class RaspRunner(Runner):
             # psh,ack HTTP POST info before sending CreateSequence so the server is primed for a POST request
             # TODO: Calculate content length of CreateSequence SOAP Message
             boilerplate_headers = {"Method": b'POST',
-                                  "Path": b'/RaspNet/TestService.svc',
-                                  "Http_Version": b'HTTP/1.1',
-                                  "Content_Type": b'application/soap+xml; charset=utf-8',
-                                  "Host": b'localhost',
-                                  "Content_Length": b'8797',
-                                  "Expect": b'100-continue'
+                                   "Path": b'/RaspNet/TestService.svc',
+                                   "Http_Version": b'HTTP/1.1',
+                                   "Content_Type": b'application/soap+xml; charset=utf-8',
+                                   "Host": b'localhost',
+                                   "Content_Length": b'8797',
+                                   "Expect": b'100-continue',
+                                   "Accept_Encoding": b'gzip, deflate',
+                                   "Connection": b'Keep-Alive'
                                  }
             
-            boilerplate_packet=HTTP()/HTTPRequest(**boilerplate_headers)
+            boilerplate_packet = HTTP()/HTTPRequest(**boilerplate_headers)
             streamsocket.sr1(boilerplate_packet, timeout=1)
 
             # TODO: Send CreateSequence POST Request
             # expect: 100-continue (answer HTTP 200 ok)
-            # TODO: EMIL PUT YOUR SCAPY 2.5 RIGHT HERE WOW:
-            # bam=p[Raw]
-            # streamsocket.sr(bam, timeout=1)
 
-            load = str(p[Raw].load)
+            tcp_layer = TCP()
+
+            load = str(p[HTTP].load)
             if "<s:Envelope" in load:
                 load = load.split("<s:Envelope")
                 new_load = load[1]
                 new_load = new_load[:-1]
                 new_load = "<s:Envelope" + new_load
                 new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
-                new_load = new_load.decode()
-                p[Raw].load = new_load
+                #new_load = new_load.decode()
+                # p[Raw].load = new_load
+                create_seq_packet = Ether(new_load)
+                raw_seq_packet = Raw(create_seq_packet)
 
-            streamsocket.sr1(HTTP()/p)
-            
+                streamsocket.sr1(raw_seq_packet, timeout=1)
+                create_seq_packet.show()
+            # streamsocket.sr1(HTTP()/p)
+            # create_seq_packet
+            p.show()
+
             # TODO: psh,ack HTTP POST info before sending SubmitInvoiceRequest so the server is primed for a POST request
             
             # TODO: Send SubmitInvoiceRequest POST Request
@@ -169,27 +176,6 @@ if __name__ == '__main__':
     path = join(cwd_path, "..", "packets")
     parser: PacketParser = PacketParser(path, False)
     seed = parser.load_seed()
-
-    #tcp = TCP(dport=80, flags="PA", seq=seq, ack=ack)
-
-    # extract HTTP POST info from psh,ack message 
-    load = str(seed[0][Raw].load)
-    if "POST" in load:
-        load = load.split("POST")
-        new_load = load[1]
-        new_load = new_load[:-1]
-        new_load = "POST" + new_load
-        new_load = new_load.encode().decode('unicode_escape').encode("raw_unicode_escape")
-        new_load = new_load.decode()
-    # TODO: calc content length lmao comments :)
-    http = http_request(host="localhost", 
-                        Pragma=None, 
-                        port=80, 
-                        Method='POST', 
-                        Content_Length="8797", 
-                        path="/RaspNet/TestService.svc", 
-                        Content_Type="application/soap+xml; charset=utf-8", 
-                        Expect="100-continue")
 
     # path = join(cwd_path, "..", "packets")
     # parser: PacketParser = PacketParser(path, False)
