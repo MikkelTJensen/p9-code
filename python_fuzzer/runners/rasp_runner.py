@@ -100,8 +100,6 @@ class RaspRunner(Runner):
             # TODO: Send CreateSequence POST Request
             # expect: 100-continue (answer HTTP 200 ok)
 
-            tcp_layer = TCP()
-
             load = str(p[HTTP].load)
             if "<s:Envelope" in load:
                 load = load.split("<s:Envelope")
