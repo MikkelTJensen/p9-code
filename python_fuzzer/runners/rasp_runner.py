@@ -26,7 +26,6 @@ sys.path.append("..")
 from loggers import SimpleLogger
 from parsers import PacketParser
 
-
 class RaspRunner(Runner):
     def __init__(self, log: SimpleLogger, path: str, verbose: bool) -> None:
         self.PASS: str = 'PASS'
@@ -112,11 +111,14 @@ class RaspRunner(Runner):
                 create_seq_packet = Ether(new_load)
                 raw_seq_packet = Raw(create_seq_packet)
 
-                streamsocket.sr1(raw_seq_packet, timeout=1)
-                create_seq_packet.show()
-            # streamsocket.sr1(HTTP()/p)
+                # streamsocket.sr1(raw_seq_packet, timeout=1)
+                # create_seq_packet.show()
+            
+            streamsocket.sr1(p[HTTP])
+            
             # create_seq_packet
-            p.show()
+            if self.verbose:
+                p.show()
 
             # TODO: psh,ack HTTP POST info before sending SubmitInvoiceRequest so the server is primed for a POST request
             
