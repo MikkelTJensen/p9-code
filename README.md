@@ -26,4 +26,4 @@ The `--listen` flag runs a listener intercepting a OIORASP client and server.
 A compiled OIORASP client should be placed in the `python_fuzzer/executables` folder to run client behavior.
 An OIORASP client should be hosted on the local machine.
 The `--verbose` flag was primarily used for debugging. 
-The `--log` does not do anything yet, as the logger class has not been fully implemented.
+The `--log` flag does not do anything yet, as the logger class has not been fully implemented.
