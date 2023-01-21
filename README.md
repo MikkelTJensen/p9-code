@@ -1,19 +1,29 @@
-# P9 - Fuzzing
-### To run the server and client
-1. In Program.cs comment/uncomment server and client
-2. Run the server in a terminal first
-3. Then run the client in another terminal
-4. Watch the magic happen
+# P9 - Towards Verification of the OIORASP Protocol
+## Automatic Testing through Fuzzing
 
-To run C# code: `dotnet run`
+### Project Description
 
-To run Python code: `python3 file.py`
+This code was written for our 9th semester project at Aalborg University.
+The project revolved around fuzzing the OIORASP protocol.
+A basic fuzzing harness was implemented, but we were unsuccessful in gathering interesting results using the fuzzer, due to security measurements implemented to protect messages sent over HTTP.
 
+### Repository Structure
 
-#To run python module code:
-export PYTHONPATH=/home/local/Documents/gitshit/p9-code/python_fuzzer
+The fuzzer is found in the `python_fuzzer` folder.
+The `working-rasp-files` folder contains files we used to set up the OIORASP client and server endpoint.
+The `examples`, `src` and `proxy-server` folder is code used for early exploration of the project.
 
-from p9-code:
-python3 -m python_fuzzer.main
+### Running the Fuzzer
 
-#To run the runner copy whats in dk.gov.oiosi.samples.ClientExample/bin/ Depug or Release folder to the executables/ClientExample
+The fuzzer is run by running the `main.py` file in the **python_fuzzer** folder.
+It can be run as follows:
+
+```
+python main.py --listen --verobse --log
+```
+
+The `--listen` flag runs a listener intercepting a OIORASP client and server.
+A compiled OIORASP client should be placed in the `python_fuzzer/executables` folder to run client behavior.
+An OIORASP client should be hosted on the local machine.
+The `--verbose` flag was primarily used for debugging. 
+The `--log` does not do anything yet, as the logger class has not been fully implemented.
