@@ -11,7 +11,7 @@ A basic fuzzing harness was implemented, but we were unsuccessful in gathering i
 
 The fuzzer is found in the `python_fuzzer` folder.
 The `working-rasp-files` folder contains files we used to set up the OIORASP client and server endpoint.
-The `examples`, `src` and `proxy-server` folder is code used for early exploration of the project.
+The `examples`, `src` and `proxy-server` folders is code used for early exploration of the project.
 
 ### Running the Fuzzer
 
