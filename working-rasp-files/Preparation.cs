@@ -48,8 +48,10 @@ namespace dk.gov.oiosi.samples.consoleClientExample {
             DocumentTypeConfigSearcher typeSearcher = new DocumentTypeConfigSearcher();
             DocumentTypeConfig docTypeConfig = typeSearcher.FindUniqueDocumentType(message.MessageXml);
 
-            // 1. Lookup the endpoint address and certificate using UDDI
-            UddiLookupResponse uddiResponse = this.Uddi(message, docTypeConfig);
+            // 1. Lookup the endpoint address and certificate using UDDI this.Uddi(message, docTypeConfig)
+            UddiLookupResponse uddiResponse = new UddiLookupResponse();
+            EndpointAddressHttp EndpointAddress = new EndpointAddressHttp(new Uri("http://localhost/RaspNet/TestService.svc"));
+            uddiResponse.EndpointAddress = EndpointAddress;
             
             // 2. Download the server certificate using LDAP
             //X509Certificate2 serverCert = this.Ldap(uddiResponse.CertificateSubjectSerialNumber);
@@ -89,7 +91,7 @@ namespace dk.gov.oiosi.samples.consoleClientExample {
 
             // Perform the actual UDDI lookup
             UddiLookupResponse uddiResponse = this.PerformUddiLookup(parameters, uddiClient);
-            EndpointAddressHttp EndpointAddress = new EndpointAddressHttp(new Uri("http://localhost/test1/TestService.svc"));
+            EndpointAddressHttp EndpointAddress = new EndpointAddressHttp(new Uri("http://localhost/RaspNet/TestService.svc"));
             uddiResponse.EndpointAddress = EndpointAddress;
             // Print out info
             Console.Write("\n  1. Got UDDI reply\n       ");
@@ -294,14 +296,14 @@ namespace dk.gov.oiosi.samples.consoleClientExample {
             {
                 case UddiType.Production:
                     {
-                        serial = "17ca484ccc183b8f4a72921483bcad3a"; // 56 df e9 a7
+                        serial = "5f9b2eb2"; // 
                         
                         break;
                     }
                 case UddiType.Test:
                     {
                         //serial = "40 37 fb 49";
-                        serial = "17ca484ccc183b8f4a72921483bcad3a"; //4c 05 5a 37
+                        serial = "4c 05 5a 37"; //
                         break;
                     }
                 default:
@@ -506,7 +508,6 @@ namespace dk.gov.oiosi.samples.consoleClientExample {
                                 }
                                 else if (map.ContainsKey(certificateInt))
                                 {
-                                    Console.WriteLine("This is C#");
                                     serial = map[certificateInt].GetSerialNumberString();
                                     selectNewStore = false;
                                 }
@@ -520,12 +521,9 @@ namespace dk.gov.oiosi.samples.consoleClientExample {
                                 Console.WriteLine("Not a int!!!");
                             }
                         }
-                        Console.WriteLine($"Hello {selectNewStore}");
-                        Console.WriteLine($"Hello {string.IsNullOrEmpty(serial)}");
                     }
                     while (!selectNewStore && string.IsNullOrEmpty(serial));
                 }
-                Console.WriteLine($"Hello {clientCert}");
             }
 
             Console.WriteLine("Expire: " + clientCert.GetExpirationDateString());

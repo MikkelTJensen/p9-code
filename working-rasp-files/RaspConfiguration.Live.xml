@@ -2597,20 +2597,20 @@
   <!-- tag::config_LdapSettings[] -->
     <ConfigurationSection xsi:type="LdapSettings">
         <CertificateInfrastructure id="NemID"> <!--1-->
-            <Host>fenris.certifikat.dk</Host> 
-            <Port>389</Port> 
+            <Host>crtdir.certifikat.dk</Host>
+            <Port>389</Port>
         </CertificateInfrastructure>
         <CertificateInfrastructure id="MitID"> <!--1-->
-            <Host>fenris.certifikat.dk</Host> 
-            <Port>389</Port> 
+            <Host>ldap.ca1.gov.dk</Host>
+            <Port>389</Port>
         </CertificateInfrastructure>
         <ConnectionTimeoutMsec>5000</ConnectionTimeoutMsec> <!--2-->
         <SocketTimeoutMsec>5000</SocketTimeoutMsec>
     </ConfigurationSection>
-    <!-- end::config_LdapSettings[] -->
+  <!-- end::config_LdapSettings[] -->
   <ConfigurationSection xsi:type="RevocationLookupFactoryConfig">
     <ImplementationNamespaceClass>dk.gov.oiosi.security.revocation.ocsp.OcspLookup</ImplementationNamespaceClass>
-    <!-- ImplementationNamespaceClass>dk.gov.oiosi.security.revocation.crl.CrlLookup</ImplementationNamespaceClass -->
+  <!-- ImplementationNamespaceClass>dk.gov.oiosi.security.revocation.crl.CrlLookup</ImplementationNamespaceClass -->
     <ImplementationAssembly>dk.gov.oiosi.library</ImplementationAssembly>
   </ConfigurationSection>
   <ConfigurationSection xsi:type="OcspConfig">
@@ -2631,7 +2631,8 @@
            <Registry>
                <UddiLookupTimeoutSeconds>30</UddiLookupTimeoutSeconds> <!--1-->
                <EndpointCollection>
-                   <Endpoint> http://lookup-test.nemhandel.dk/uddi/services/inquiry</Endpoint>
+                   <Endpoint>http://discoverypublic.nemhandel.dk/uddi/services/inquiry</Endpoint>
+                   <Endpoint>http://discoverybackup.nemhandel-backup.dk/uddi/services/inquiry</Endpoint>
                </EndpointCollection>
            </Registry>
            <!-- end::config_UddiLookupTimeoutSeconds[] -->
@@ -2799,14 +2800,14 @@
       </CacheConfigurationCollection>
     </SequenceIdUnfinishedSignaturesCache>
   </ConfigurationSection>
-  <ConfigurationSection xsi:type="RootCertificateCollectionConfig"> 
+  <ConfigurationSection xsi:type="RootCertificateCollectionConfig">
     <RootCertificateLocationCollection>
-        <RootCertificateLocation> 
-          <StoreLocation>CurrentUser</StoreLocation> 
+      <RootCertificateLocation>
+          <StoreLocation>LocalMachine</StoreLocation> 
           <StoreName>Root</StoreName> 
           <SerialNumber>5baa3fb7</SerialNumber>
           <Description>TRUST2408 Systemtest XXXIV CA</Description>
-        </RootCertificateLocation>
+      </RootCertificateLocation>
     </RootCertificateLocationCollection>
   </ConfigurationSection>
   <ConfigurationSection xsi:type="OcesX509CertificateConfig">
