@@ -19,7 +19,7 @@ The fuzzer is run by running the `main.py` file in the **python_fuzzer** folder.
 It can be run as follows:
 
 ```
-python main.py --listen --verobse --log
+python main.py --listen --verbose --log
 ```
 
 The `--listen` flag runs a listener intercepting a OIORASP client and server.
